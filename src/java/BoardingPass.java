@@ -1,17 +1,38 @@
+import java.util.Date;
+
 public class BoardingPass {
 
     // variables
     private int boardingPassNumber;
-    private int date;
-    private int time;
-    private String origin;
-    private String destination;
-    private int eta;
-    private int departureTime;
-    private int ticketPrice;
+    enum Locations {
+        Atlanta,
+        Amsterdam,
+        Boston,
+        Cancun,
+        Dublin,
+        Hong_Kong,
+        Las_Vegas,
+        London,
+        Los_Angeles,
+        Melbourne,
+        New_York,
+        New_Zealand,
+        Orlando,
+        Paris,
+        Rome,
+        San_Francisco,
+        Singapore,
+        Tokyo,
+        Vancouver,
+        Washington_DC
+    }
+    private Locations originLocation;
+    private Locations destinationLocation;
+    private Date arrivalTime;
+    private Date departureTime;
+    private double ticketPrice;
 
     // getters and setters
-
     public int getBoardingPassNumber() {
         return boardingPassNumber;
     }
@@ -20,59 +41,51 @@ public class BoardingPass {
         this.boardingPassNumber = boardingPassNumber;
     }
 
-    public int getDate() {
-        return date;
+    public Locations getDestinationLocation() {
+        return destinationLocation;
     }
 
-    public void setDate(int date) {
-        this.date = date;
+    public void setDestinationLocation(Locations destinationLocation) {
+        this.destinationLocation = destinationLocation;
     }
 
-    public int getTime() {
-        return time;
+    public Locations getOriginLocation() {
+        return originLocation;
     }
 
-    public void setTime(int time) {
-        this.time = time;
+    public void setOriginLocation(Locations originLocation) {
+        this.originLocation = originLocation;
     }
 
-    public String getOrigin() {
-        return origin;
-    }
 
-    public void setOrigin(String origin) {
-        this.origin = origin;
-    }
-
-    public String getDestination() {
-        return destination;
-    }
-
-    public void setDestination(String destination) {
-        this.destination = destination;
-    }
-
-    public int getEta() {
-        return eta;
-    }
-
-    public void setEta(int eta) {
-        this.eta = eta;
-    }
-
-    public int getDepartureTime() {
+    public Date getDepartureTime() {
         return departureTime;
     }
 
-    public void setDepartureTime(int departureTime) {
+    public void setDepartureTime(Date departureTime) {
         this.departureTime = departureTime;
     }
 
-    public int getTicketPrice() {
+    public Date getArrivalTime() {
+        return arrivalTime;
+    }
+
+    public void setArrivalTime(Date arrivalTime) {
+        this.arrivalTime = arrivalTime;
+    }
+
+    public double getTicketPrice() {
         return ticketPrice;
     }
 
-    public void setTicketPrice(int ticketPrice) {
+    public void setTicketPrice(double ticketPrice) {
         this.ticketPrice = ticketPrice;
     }
+
+    // returned in milliseconds
+    public long getEta(){
+        return Math.subtractExact(arrivalTime.getTime(), departureTime.getTime());
+    }
+
+    // todo create method to convert milliseconds to hh:mm:ss
 }
