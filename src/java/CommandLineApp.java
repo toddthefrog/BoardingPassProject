@@ -7,13 +7,14 @@ public class CommandLineApp {
 
     public void start(Customer customer, BoardingPass boardingPass){
         // get customer info
-        askName(customer);
-        requestEmail(customer);
-        requestNumber(customer);
-        requestGender(customer);
-        requestAge(customer);
+//        askName(customer);
+//        requestEmail(customer);
+//        requestNumber(customer);
+//        requestGender(customer);
+//        requestAge(customer);
         // generate boarding pass
-        requestOriginLocation(boardingPass);
+        requestDepartureLocation(boardingPass);
+        requestDestinationLocation(boardingPass);
     }
 
     public void askName(Customer customer){
@@ -87,7 +88,7 @@ public class CommandLineApp {
 //        getInput.close();
     }
 
-    public void requestOriginLocation(BoardingPass boardingPass){
+    public void requestDepartureLocation(BoardingPass boardingPass){
         Scanner getInput = new Scanner(System.in);
         slowPrint("What is your departure city? \n\n");
         int i = 1;
@@ -108,31 +109,31 @@ public class CommandLineApp {
                         boardingPass.setOriginLocation(BoardingPass.Locations.Amsterdam);
                         break;
                     case 3:
-                        boardingPass.setOriginLocation(BoardingPass.Locations.Amsterdam);
-                        break;
-                    case 4:
                         boardingPass.setOriginLocation(BoardingPass.Locations.Boston);
                         break;
-                    case 5:
+                    case 4:
                         boardingPass.setOriginLocation(BoardingPass.Locations.Cancun);
                         break;
-                    case 6:
+                    case 5:
                         boardingPass.setOriginLocation(BoardingPass.Locations.Dublin);
                         break;
-                    case 7:
+                    case 6:
                         boardingPass.setOriginLocation(BoardingPass.Locations.Hong_Kong);
                         break;
-                    case 8:
+                    case 7:
                         boardingPass.setOriginLocation(BoardingPass.Locations.Las_Vegas);
                         break;
-                    case 9:
+                    case 8:
                         boardingPass.setOriginLocation(BoardingPass.Locations.London);
                         break;
-                    case 10:
+                    case 9:
                         boardingPass.setOriginLocation(BoardingPass.Locations.Los_Angeles);
                         break;
-                    case 11:
+                    case 10:
                         boardingPass.setOriginLocation(BoardingPass.Locations.Melbourne);
+                        break;
+                    case 11:
+                        boardingPass.setOriginLocation(BoardingPass.Locations.New_York);
                         break;
                     case 12:
                         boardingPass.setOriginLocation(BoardingPass.Locations.New_Zealand);
@@ -163,6 +164,88 @@ public class CommandLineApp {
                         break;
                     default:
                         boardingPass.setOriginLocation(BoardingPass.Locations.Unknown);
+                        break;
+                }
+            }
+        }
+    }
+
+    public void requestDestinationLocation(BoardingPass boardingPass){
+        Scanner getInput = new Scanner(System.in);
+        slowPrint("What is your departure city? \n\n");
+        int i = 1;
+        for(BoardingPass.Locations location : BoardingPass.Locations.values()){
+            System.out.println(i + " " + location + "\t");
+            i++;
+        }
+//        System.out.println("\n");
+        int input;
+        if(getInput.hasNextInt()){
+            input = getInput.nextInt();
+            if(input >= 1 && input <= 20){
+                switch(input){
+                    case 1:
+                        boardingPass.setDestinationLocation(BoardingPass.Locations.Atlanta);
+                        break;
+                    case 2:
+                        boardingPass.setDestinationLocation(BoardingPass.Locations.Amsterdam);
+                        break;
+                    case 3:
+                        boardingPass.setDestinationLocation(BoardingPass.Locations.Boston);
+                        break;
+                    case 4:
+                        boardingPass.setDestinationLocation(BoardingPass.Locations.Cancun);
+                        break;
+                    case 5:
+                        boardingPass.setDestinationLocation(BoardingPass.Locations.Dublin);
+                        break;
+                    case 6:
+                        boardingPass.setDestinationLocation(BoardingPass.Locations.Hong_Kong);
+                        break;
+                    case 7:
+                        boardingPass.setDestinationLocation(BoardingPass.Locations.Las_Vegas);
+                        break;
+                    case 8:
+                        boardingPass.setDestinationLocation(BoardingPass.Locations.London);
+                        break;
+                    case 9:
+                        boardingPass.setDestinationLocation(BoardingPass.Locations.Los_Angeles);
+                        break;
+                    case 10:
+                        boardingPass.setDestinationLocation(BoardingPass.Locations.Melbourne);
+                        break;
+                    case 11:
+                        boardingPass.setDestinationLocation(BoardingPass.Locations.New_York);
+                        break;
+                    case 12:
+                        boardingPass.setDestinationLocation(BoardingPass.Locations.New_Zealand);
+                        break;
+                    case 13:
+                        boardingPass.setDestinationLocation(BoardingPass.Locations.Orlando);
+                        break;
+                    case 14:
+                        boardingPass.setDestinationLocation(BoardingPass.Locations.Paris);
+                        break;
+                    case 15:
+                        boardingPass.setDestinationLocation(BoardingPass.Locations.Rome);
+                        break;
+                    case 16:
+                        boardingPass.setDestinationLocation(BoardingPass.Locations.San_Francisco);
+                        break;
+                    case 17:
+                        boardingPass.setDestinationLocation(BoardingPass.Locations.Singapore);
+                        break;
+                    case 18:
+                        boardingPass.setDestinationLocation(BoardingPass.Locations.Tokyo);
+                        break;
+                    case 19:
+                        boardingPass.setDestinationLocation(BoardingPass.Locations.Vancouver);
+                        break;
+                    case 20:
+                        boardingPass.setDestinationLocation(BoardingPass.Locations.Washington_DC);
+                        break;
+                    default:
+                        boardingPass.setDestinationLocation(BoardingPass.Locations.Unknown);
                         break;
                 }
             }

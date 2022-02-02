@@ -92,6 +92,6 @@ public class BoardingPass {
 
     @Override
     public String toString() {
-        return "Boarding Pass" + "\n" + "origin location:  " + getOriginLocation();
+        return "Boarding Pass" + "\n  departure city: " + getOriginLocation() + "\n  arrival city: " + getDestinationLocation();
     }
 }
