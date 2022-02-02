@@ -1,7 +1,7 @@
 public class Customer {
     private String name;
     private String email;
-    private int number;
+    private String number;
     private String gender;
     private int age;
 
@@ -21,11 +21,11 @@ public class Customer {
         this.email = email;
     }
 
-    public int getNumber() {
+    public String getNumber() {
         return number;
     }
 
-    public void setNumber(int number) {
+    public void setNumber(String number) {
         this.number = number;
     }
 
@@ -43,5 +43,10 @@ public class Customer {
 
     public void setAge(int age) {
         this.age = age;
+    }
+
+    @Override
+    public String toString() {
+        return getName() + "\n  age: " + getAge() + "\n  phone number: " + getNumber() + "\n  email: " + getEmail() + "\n  gender: " + getGender();
     }
 }
