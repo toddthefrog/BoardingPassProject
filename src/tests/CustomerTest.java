@@ -31,8 +31,8 @@ class CustomerTest {
 
     @Test
     void getNumber() {
-        customer.setNumber(123);
-        assertEquals(123,customer.getNumber());
+        customer.setNumber("1234567890");
+        assertEquals("1234567890",customer.getNumber());
     }
 
     @Test

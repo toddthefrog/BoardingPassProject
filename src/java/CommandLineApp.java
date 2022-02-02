@@ -21,11 +21,7 @@ public class CommandLineApp {
         Scanner getInput = new Scanner(System.in);
         slowPrint("What is your full legal name? \n");
         String input = getInput.nextLine();
-        try {
-            customer.setName(input);
-        } catch (Exception e){
-            System.out.println("Something broke! \n");
-        }
+        customer.setName(input);
         // close scanner
 //        getInput.close();
     }
@@ -44,12 +40,8 @@ public class CommandLineApp {
         // create scanner
         Scanner getInput = new Scanner(System.in);
         slowPrint("What is your phone number? Format: 1234567890 \n");
-        if(getInput.hasNextInt()){
-            int input = getInput.nextInt();
-        } else {
-            slowPrint("Please enter numbers only. \n");
-            requestNumber(customer);
-        }
+        String input = getInput.nextLine();
+        customer.setNumber(input);
     }
 
     public void requestGender(Customer customer){
