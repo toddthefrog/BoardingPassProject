@@ -44,15 +44,12 @@ public class CommandLineApp {
         // create scanner
         Scanner getInput = new Scanner(System.in);
         slowPrint("What is your phone number? Format: 1234567890 \n");
-        int input = getInput.nextInt();
-        try {
-            customer.setNumber(input);
-        } catch (Exception e){
-            slowPrint("Please use numbers only. \n");
+        if(getInput.hasNextInt()){
+            int input = getInput.nextInt();
+        } else {
+            slowPrint("Please enter numbers only. \n");
             requestNumber(customer);
         }
-        // close scanner
-//        getInput.close();
     }
 
     public void requestGender(Customer customer){
