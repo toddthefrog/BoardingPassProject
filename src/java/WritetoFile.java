@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class WriteToFile {
+public class WritetoFile {
     FileWriter fw;
 
     public void ticketInfo(Customer customer, BoardingPass boardingPass) {

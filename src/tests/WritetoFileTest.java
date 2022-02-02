@@ -9,7 +9,7 @@ import org.junit.jupiter.api.io.TempDir;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class WriteToFileTest {
+class WritetoFileTest {
 
     @BeforeEach
     void setUp() {
