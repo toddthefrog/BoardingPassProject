@@ -58,7 +58,7 @@ public class WritetoFile {
             String ETA = myReader.nextLine();
             myReader.close();
 
-            //Passnger info
+            //Passenger info
             fw.write("Passenger Information: ");
             fw.write("Passenger Name:" + "          " + "Gender:" + "          " + "Age:");
             fw.write(name + "          " + gender + "          " + age);
