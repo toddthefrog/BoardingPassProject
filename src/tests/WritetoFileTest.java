@@ -1,40 +1,47 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Scanner;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Arrays;
+import java.util.List;
+import org.junit.jupiter.api.io.TempDir;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class WritetoFileTest {
-    WritetoFile writeFile;
 
     @BeforeEach
     void setUp() {
-        writeFile = new WritetoFile();
     }
 
     @Test
-    void ticketInfo(Customer customer, BoardingPass boardingPass) {
-        FileWriter fw;
-        String test = null;
+    void ticketInfo(@TempDir Path tempDir) {
+        Path testingFolder = tempDir.resolve("ticketInfo.txt");
+
+        List<String> lines = Arrays.asList("1", "2", "3");
         try {
-            fw = new FileWriter("test.txt");
-            fw.write("abba");
-
-            FileReader fr = new FileReader("test.txt");
-            Scanner myReader = new Scanner(fr);
-            test = myReader.nextLine();
-
+            Files.write(testingFolder, lines);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        assertEquals("lig", test);
+        assertAll(
+                () -> assertTrue(Files.exists(testingFolder), "File should exist"),
+                () -> assertLinesMatch(lines, Files.readAllLines(testingFolder)));
     }
 
     @Test
-    void writeTicket() {
+    void writeTicket(@TempDir Path tempDir) {
+        Path testingFolder = tempDir.resolve("ticket.txt");
+
+        List<String> lines = Arrays.asList("1", "2", "3");
+        try {
+            Files.write(testingFolder, lines);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        assertAll(
+                () -> assertTrue(Files.exists(testingFolder), "File should exist"),
+                () -> assertLinesMatch(lines, Files.readAllLines(testingFolder)));
     }
 }

@@ -1,4 +1,6 @@
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 
 public class WritetoFile {
@@ -40,7 +42,6 @@ public class WritetoFile {
     public void writeTicket(){
         try {
             FileReader fr = new FileReader("ticketInfo.txt");
-            FileWriter fw = new FileWriter("ticket.txt");
 
             Scanner myReader = new Scanner(fr);
             String name = myReader.nextLine();
