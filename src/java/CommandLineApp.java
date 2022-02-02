@@ -8,7 +8,7 @@ public class CommandLineApp {
 
     public void start(Customer customer, BoardingPass boardingPass){
         // get customer info
-        askName(customer);
+        requestName(customer);
         requestEmail(customer);
         requestNumber(customer);
         requestGender(customer);
@@ -22,8 +22,7 @@ public class CommandLineApp {
         getInput.close();
     }
 
-    public void askName(Customer customer){
-
+    public void requestName(Customer customer){
         slowPrint("What is your full legal name? \n");
         String input = getInput.nextLine();
         customer.setName(input);
@@ -66,7 +65,6 @@ public class CommandLineApp {
             default:
                 customer.setGender("Unknown");
         }
-//        getInput.close();
     }
 
     public void requestAge(Customer customer){
@@ -79,7 +77,6 @@ public class CommandLineApp {
             slowPrint("Please use numbers only. \n");
             requestAge(customer);
         }
-//        getInput.close();
     }
 
     public void requestDepartureLocation(BoardingPass boardingPass){
@@ -89,7 +86,6 @@ public class CommandLineApp {
             System.out.println(i + " " + location + "\t");
             i++;
         }
-//        System.out.println("\n");
         int input;
         if(getInput.hasNextInt()){
             input = getInput.nextInt();
