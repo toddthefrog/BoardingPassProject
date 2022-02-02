@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class WritetoFile {
+public class WriteToFile {
     FileWriter fw;
 
     public void ticketInfo(Customer customer, BoardingPass boardingPass) {
@@ -40,7 +40,6 @@ public class WritetoFile {
     public void writeTicket(){
         try {
             FileReader fr = new FileReader("ticketInfo.txt");
-            FileWriter fw = new FileWriter("ticket.txt");
 
             Scanner myReader = new Scanner(fr);
             String name = myReader.nextLine();
