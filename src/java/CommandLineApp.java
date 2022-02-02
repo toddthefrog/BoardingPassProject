@@ -3,7 +3,8 @@ import java.util.concurrent.TimeUnit;
 
 public class CommandLineApp {
 
-    Scanner scanner = new Scanner(System.in);
+    // create scanner
+    Scanner getInput = new Scanner(System.in);
 
     public void start(Customer customer, BoardingPass boardingPass){
         // get customer info
@@ -15,38 +16,32 @@ public class CommandLineApp {
         // generate boarding pass
         requestDepartureLocation(boardingPass);
         requestDestinationLocation(boardingPass);
+        System.out.println(customer.toString());
+        System.out.println(boardingPass.toString());
+        // close scanner
+        getInput.close();
     }
 
     public void askName(Customer customer){
-        // create scanner
-        Scanner getInput = new Scanner(System.in);
+
         slowPrint("What is your full legal name? \n");
         String input = getInput.nextLine();
         customer.setName(input);
-        // close scanner
-//        getInput.close();
     }
 
     public void requestEmail(Customer customer){
-        // create scanner
-        Scanner getInput = new Scanner(System.in);
         slowPrint("What is your email? \n");
         String input = getInput.nextLine();
         customer.setEmail(input);
-        // close scanner
-//        getInput.close();
     }
 
     public void requestNumber(Customer customer){
-        // create scanner
-        Scanner getInput = new Scanner(System.in);
         slowPrint("What is your phone number? Format: 1234567890 \n");
         String input = getInput.nextLine();
         customer.setNumber(input);
     }
 
     public void requestGender(Customer customer){
-        Scanner getInput = new Scanner(System.in);
         slowPrint("What is your gender? Format: 1-4 \n");
         slowPrint("(1) Male (2) Female (3) Other (4) Java Developer \n");
         int input;
@@ -75,7 +70,6 @@ public class CommandLineApp {
     }
 
     public void requestAge(Customer customer){
-        Scanner getInput = new Scanner(System.in);
         slowPrint("What is your age? Format: 18 \n");
         int input;
         if(getInput.hasNextInt()){
@@ -89,7 +83,6 @@ public class CommandLineApp {
     }
 
     public void requestDepartureLocation(BoardingPass boardingPass){
-        Scanner getInput = new Scanner(System.in);
         slowPrint("What is your departure city? \n\n");
         int i = 1;
         for(BoardingPass.Locations location : BoardingPass.Locations.values()){
@@ -171,7 +164,6 @@ public class CommandLineApp {
     }
 
     public void requestDestinationLocation(BoardingPass boardingPass){
-        Scanner getInput = new Scanner(System.in);
         slowPrint("What is your departure city? \n\n");
         int i = 1;
         for(BoardingPass.Locations location : BoardingPass.Locations.values()){
