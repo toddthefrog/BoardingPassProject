@@ -7,11 +7,11 @@ public class CommandLineApp {
 
     public void start(Customer customer, BoardingPass boardingPass){
         // get customer info
-//        askName(customer);
-//        requestEmail(customer);
-//        requestNumber(customer);
-//        requestGender(customer);
-//        requestAge(customer);
+        askName(customer);
+        requestEmail(customer);
+        requestNumber(customer);
+        requestGender(customer);
+        requestAge(customer);
         // generate boarding pass
         requestDepartureLocation(boardingPass);
         requestDestinationLocation(boardingPass);
