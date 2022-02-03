@@ -88,8 +88,6 @@ public class BoardingPass {
         return Math.subtractExact(arrivalTime.getTime(), departureTime.getTime());
     }
 
-    // todo create method to convert milliseconds to hh:mm:ss
-
     @Override
     public String toString() {
         return "Boarding Pass" + "\n  departure city: " + getOriginLocation() + "\n  arrival city: " + getDestinationLocation();

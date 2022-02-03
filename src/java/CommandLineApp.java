@@ -7,7 +7,11 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Scanner;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
 public class CommandLineApp {
@@ -17,16 +21,17 @@ public class CommandLineApp {
 
     public void start(Customer customer, BoardingPass boardingPass){
         // get customer info
-        requestName(customer);
-        requestEmail(customer);
-        requestNumber(customer);
-        requestGender(customer);
-        requestAge(customer);
+//        requestName(customer);
+//        requestEmail(customer);
+//        requestNumber(customer);
+//        requestGender(customer);
+//        requestAge(customer);
         // generate boarding pass
-        requestDepartureLocation(boardingPass);
-        requestDestinationLocation(boardingPass);
+//        requestDepartureLocation(boardingPass);
+//        requestDestinationLocation(boardingPass);
         // close scanner
-        httpCallForDistanceAndFlightTime(boardingPass.getOriginLocation(), boardingPass.getDestinationLocation());
+//        httpCallForDistanceAndFlightTime(boardingPass);
+        requestDateLeaving();
         System.out.println(customer);
         System.out.println(boardingPass);
         getInput.close();
@@ -250,7 +255,7 @@ public class CommandLineApp {
         }
     }
 
-    public void httpCallForDistanceAndFlightTime(BoardingPass.Locations departureLocation, BoardingPass.Locations arrivalLocation){
+    public void httpCallForDistanceAndFlightTime(BoardingPass boardingPass){
         // reference material https://www.geeksforgeeks.org/parse-json-java/
         // url
         OkHttpClient client = new OkHttpClient();
@@ -258,7 +263,7 @@ public class CommandLineApp {
         Request request = new Request.Builder()
                 // api documentation
                 // https://www.distance24.org/api.xhtml
-                .url("https://www.distance24.org/route.json?stops=" + departureLocation + "%7C" + arrivalLocation)
+                .url("https://www.distance24.org/route.json?stops=" + boardingPass.getOriginLocation() + "%7C" + boardingPass.getDestinationLocation())
                 .get()
                 .addHeader("content-type", "text/html;charset=UTF-8")
                 .addHeader("vary", "Accept-Encoding")
@@ -271,14 +276,64 @@ public class CommandLineApp {
                 Object obj = new JSONParser().parse(response.body().string());
                 JSONObject jo = (JSONObject) obj;
                 JSONArray ja = (JSONArray) jo.get("distances");
-                int distance = Integer.parseInt(ja.get(0).toString());
-                int seconds = distance / 500;
-                System.out.println("\nDistance in kilometers: " + distance + "\n");
-                System.out.println("\nTravel time in hours: "+ seconds);
+                double distance = Double.parseDouble(ja.get(0).toString()); // distance in km
+                double speedOfPlaneInKilometersPerHour = 865.0; // speed of boeing 777 in kilometers per hour
+                double timeToCruisingAltitudePenalty = 3600.0;  // 1 hour in seconds
+                double tripTimeInSeconds = ((((distance / speedOfPlaneInKilometersPerHour) * 60.0) * 60.0) + timeToCruisingAltitudePenalty);// trip time in seconds
+                System.out.println("\ntrip time in seconds: " + tripTimeInSeconds);
+                double milliseconds = tripTimeInSeconds * 1000.0; // trip time in milliseconds
+                System.out.println("\ntrip time in milliseconds: " + milliseconds);
+                System.out.println("\nDistance in kilometers: " + distance);
+                // date test
+                Calendar calendar = Calendar.getInstance();
+                Date today = calendar.getTime();
+                SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy hh:mm:ss a");
+                System.out.println("\nCurrent time: " + sdf.format(today));
+                // add milliseconds to date
+                calendar.add(Calendar.MILLISECOND, (int) milliseconds);
+                Date addMilliSeconds = calendar.getTime();
+                System.out.println("\nTime after" + tripTimeInSeconds + " seconds: " + sdf.format(addMilliSeconds));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
         } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void requestDateLeaving(){
+        Calendar calendar = Calendar.getInstance();
+        Date today = calendar.getTime();
+        SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
+        slowPrint("\nWhat date would you like to leave?");
+        slowPrint("\nExample: " + sdf.format(today) +"\n");
+        String requestedDate = getInput.nextLine();
+        // create date from input
+        String pattern = "yyyy-MM-dd";
+        int amOrPM;
+        int hour;
+        int randomMinute = ThreadLocalRandom.current().nextInt(0, 60);
+        slowPrint("\nWhen would you like to depart?");
+        slowPrint("\n1 - AM");
+        slowPrint("\n2 - PM\n");
+        if (getInput.hasNextInt()){
+            amOrPM = getInput.nextInt();
+            if (amOrPM == 1){
+                slowPrint("What time would you like to leave?\n  1 would be 1 AM \n11 would be 11 AM\n");
+                if (getInput.hasNextInt()){
+                    hour = getInput.nextInt();
+                }
+            } else {
+                slowPrint("What time would you like to leave?\n 1 would be 1 PM \n11 would be 11 PM\n");
+                if (getInput.hasNextInt()){
+                    hour = getInput.nextInt();
+                }
+            }
+        }
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+        try {
+            Date date = simpleDateFormat.parse(requestedDate);
+        } catch (java.text.ParseException e) {
             e.printStackTrace();
         }
     }
