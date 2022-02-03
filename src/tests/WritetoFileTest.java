@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import org.junit.jupiter.api.io.TempDir;
@@ -17,14 +16,14 @@ class WritetoFileTest {
 
     @BeforeEach
     void setUp() {
-        Customer customer = new Customer();
-        BoardingPass boardingPass = new BoardingPass();
+        customer = new Customer();
+        boardingPass = new BoardingPass();
 
         Date today;
         today = new Date();
         customer.setEmail("a@a.com");
         customer.setName("abba");
-        customer.setGender("M");
+        customer.setGender("Male");
         customer.setAge(23);
         customer.setNumber("1234567890");
 
@@ -48,9 +47,9 @@ class WritetoFileTest {
         String DT = String.valueOf(boardingPass.getDepartureTime());
         String AT = String.valueOf(boardingPass.getArrivalTime());
         String ticketPrice = String.valueOf(boardingPass.getTicketPrice());
-        String ETA = String.valueOf(boardingPass.getEta());
+        //String ETA = String.valueOf(boardingPass.getEta());
 
-        List<String> test = Arrays.asList(customer.getName(), customer.getNumber(), customer.getGender(), age, bpn, DL, OL, DT, AT, ticketPrice, ETA);
+        List<String> test = Arrays.asList(customer.getName(), customer.getNumber(), customer.getGender(), age, bpn, DL, OL, DT, AT, ticketPrice);
         try {
             Files.write(testingFolder, test);
 
