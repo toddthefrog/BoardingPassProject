@@ -42,6 +42,7 @@ public class WritetoFile {
     public void writeTicket(){
         try {
             FileReader fr = new FileReader("ticketInfo.txt");
+            FileWriter fw = new FileWriter("Ticket.txt");
 
             Scanner myReader = new Scanner(fr);
             String name = myReader.nextLine();

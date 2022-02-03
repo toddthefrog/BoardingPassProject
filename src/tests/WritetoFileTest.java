@@ -63,7 +63,8 @@ class WritetoFileTest {
 
     @Test
     void writeTicket(@TempDir Path tempDir) {
-        Path testingFolder = tempDir.resolve("ticket.txt");
+        Path testingFolder = tempDir.resolve("ticketInfo.txt");
+        Path testingFolder = tempDir.resolve("Ticket.txt");
 
         List<String> lines = Arrays.asList("1", "2", "3");
         try {
