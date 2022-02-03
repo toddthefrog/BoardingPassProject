@@ -1,3 +1,12 @@
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+import java.io.IOException;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
@@ -16,9 +25,10 @@ public class CommandLineApp {
         // generate boarding pass
         requestDepartureLocation(boardingPass);
         requestDestinationLocation(boardingPass);
-        System.out.println(customer.toString());
-        System.out.println(boardingPass.toString());
         // close scanner
+        httpCallForDistanceAndFlightTime(boardingPass.getOriginLocation(), boardingPass.getDestinationLocation());
+        System.out.println(customer);
+        System.out.println(boardingPass);
         getInput.close();
     }
 
@@ -160,7 +170,7 @@ public class CommandLineApp {
     }
 
     public void requestDestinationLocation(BoardingPass boardingPass){
-        slowPrint("What is your departure city? \n\n");
+        slowPrint("What is your arrival city? \n\n");
         int i = 1;
         for(BoardingPass.Locations location : BoardingPass.Locations.values()){
             System.out.println(i + " " + location + "\t");
@@ -239,6 +249,41 @@ public class CommandLineApp {
             }
         }
     }
+
+    public void httpCallForDistanceAndFlightTime(BoardingPass.Locations departureLocation, BoardingPass.Locations arrivalLocation){
+        // reference material https://www.geeksforgeeks.org/parse-json-java/
+        // url
+        OkHttpClient client = new OkHttpClient();
+
+        Request request = new Request.Builder()
+                // api documentation
+                // https://www.distance24.org/api.xhtml
+                .url("https://www.distance24.org/route.json?stops=" + departureLocation + "%7C" + arrivalLocation)
+                .get()
+                .addHeader("content-type", "text/html;charset=UTF-8")
+                .addHeader("vary", "Accept-Encoding")
+                .build();
+
+        Response response = null;
+        try {
+            response = client.newCall(request).execute();
+            try {
+                Object obj = new JSONParser().parse(response.body().string());
+                JSONObject jo = (JSONObject) obj;
+                JSONArray ja = (JSONArray) jo.get("distances");
+                int distance = Integer.parseInt(ja.get(0).toString());
+                int seconds = distance / 500;
+                System.out.println("\nDistance in kilometers: " + distance + "\n");
+                System.out.println("\nTravel time in hours: "+ seconds);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 
     // the following method prints to the console with a delay between each character
     // shamelessly stolen from: https://replit.com/talk/learn/Slow-Print-tutorial-for-JAVA/51697
