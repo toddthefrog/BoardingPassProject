@@ -29,8 +29,8 @@ public class BoardingPass {
     }
     private Locations originLocation;
     private Locations destinationLocation;
-    private Date arrivalTime;
     private Date departureTime;
+    private Date arrivalTime;
     private double ticketPrice;
 
     // getters and setters
