@@ -13,27 +13,42 @@ public class WritetoFile {
     public void ticketInfo(Customer customer, BoardingPass boardingPass) {
         {
             try {
-                fw = new FileWriter("ticketInfo.txt");
+                //fw = new FileWriter("ticketInfo.txt");
+                File write = new File("ticketInfo.txt");
+                FileOutputStream fos = new FileOutputStream(write);
+                BufferedWriter fw = new BufferedWriter(new OutputStreamWriter(fos));
+
                 fw.write(customer.getName());
+                fw.newLine();
                 fw.write(customer.getEmail());
+                fw.newLine();
                 fw.write(customer.getNumber());
+                fw.newLine();
                 fw.write(customer.getGender());
-                fw.write(customer.getAge());
+                fw.newLine();
+                fw.write(String.valueOf(customer.getAge()));
+                fw.newLine();
 
                 //enum
                 fw.write(String.valueOf(boardingPass.getBoardingPassNumber()));
+                fw.newLine();
                 //enum
                 fw.write(String.valueOf(boardingPass.getDestinationLocation()));
+                fw.newLine();
                 //locations
                 fw.write(String.valueOf(boardingPass.getOriginLocation()));
+                fw.newLine();
                 //date
                 fw.write(String.valueOf(boardingPass.getDepartureTime()));
+                fw.newLine();
                 //date
                 fw.write(String.valueOf(boardingPass.getArrivalTime()));
+                fw.newLine();
                 //double
                 fw.write(String.valueOf(boardingPass.getTicketPrice()));
+                fw.newLine();
                 //long
-                fw.write(String.valueOf(boardingPass.getEta()));
+                //fw.write(String.valueOf(boardingPass.getEta()));
 
                 fw.close();
 
@@ -113,7 +128,6 @@ public class WritetoFile {
 
     public void pdf(){
         try {
-
             FileReader fr = new FileReader("ticketInfo.txt");
             Scanner myReader = new Scanner(fr);
             String name = myReader.nextLine();
@@ -139,32 +153,31 @@ public class WritetoFile {
             Paragraph ParrivalTime = new Paragraph(arrivalTime);
             String ticketPrice = myReader.nextLine();
             Paragraph PticketPrice = new Paragraph(ticketPrice);
-            String ETA = myReader.nextLine();
-            Paragraph PETA = new Paragraph(ETA);
+            //String ETA = myReader.nextLine();
+            //Paragraph PETA = new Paragraph(ETA);
             myReader.close();
 
             BarcodePDF417 pdf417 = new BarcodePDF417();
             Document document = new Document(PageSize.A4, 50, 50, 50, 50);
-            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("ExampleBarcodePDF417.pdf"));
+            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("Ticket.pdf"));
             //writer.
             document.open();
             Image img = pdf417.getImage();
-            img.scalePercent(50, 50 * pdf417.getYHeight());
+            img.scalePercent(100, 100 * pdf417.getYHeight());
             document.add(img);
             document.add(PName);
-            document.add(PEmail);
+            //document.add(PEmail);
             document.add(PNumber);
             document.add(PGender);
             document.add(PAge);
 
             document.add(PBPNumber);
-            document.add(PName);
             document.add(PDestinationLocation);
             document.add(PoriginLocation);
             document.add(PdepartureTime);
             document.add(ParrivalTime);
             document.add(PticketPrice);
-            document.add(PETA);
+            //document.add(PETA);
 
             document.close();
         } catch (DocumentException | FileNotFoundException e) {
