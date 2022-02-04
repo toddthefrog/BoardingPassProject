@@ -112,26 +112,37 @@ public class WritetoFile {
     }
 
     public void pdf(){
-        FileReader fr = null;
         try {
-            /*
-            fr = new FileReader("ticketInfo.txt");
+
+            FileReader fr = new FileReader("ticketInfo.txt");
             Scanner myReader = new Scanner(fr);
             String name = myReader.nextLine();
+            Paragraph PName = new Paragraph(name);
             String email = myReader.nextLine();
+            Paragraph PEmail = new Paragraph(email);
             String number = myReader.nextLine();
+            Paragraph PNumber = new Paragraph(number);
             String gender = myReader.nextLine();
+            Paragraph PGender = new Paragraph(gender);
             String age = myReader.nextLine();
+            Paragraph PAge = new Paragraph(age);
 
             String bpNumber = myReader.nextLine();
+            Paragraph PBPNumber = new Paragraph(bpNumber);
             String destinationLocation = myReader.nextLine();
+            Paragraph PDestinationLocation = new Paragraph(destinationLocation);
             String originLocation = myReader.nextLine();
+            Paragraph PoriginLocation = new Paragraph(originLocation);
             String departureTime = myReader.nextLine();
+            Paragraph PdepartureTime = new Paragraph(departureTime);
             String arrivalTime = myReader.nextLine();
+            Paragraph ParrivalTime = new Paragraph(arrivalTime);
             String ticketPrice = myReader.nextLine();
+            Paragraph PticketPrice = new Paragraph(ticketPrice);
             String ETA = myReader.nextLine();
+            Paragraph PETA = new Paragraph(ETA);
             myReader.close();
-            */
+
             BarcodePDF417 pdf417 = new BarcodePDF417();
             Document document = new Document(PageSize.A4, 50, 50, 50, 50);
             PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("ExampleBarcodePDF417.pdf"));
@@ -140,8 +151,21 @@ public class WritetoFile {
             Image img = pdf417.getImage();
             img.scalePercent(50, 50 * pdf417.getYHeight());
             document.add(img);
-            Paragraph paragraph = new Paragraph("test");
-            document.add(paragraph);
+            document.add(PName);
+            document.add(PEmail);
+            document.add(PNumber);
+            document.add(PGender);
+            document.add(PAge);
+
+            document.add(PBPNumber);
+            document.add(PName);
+            document.add(PDestinationLocation);
+            document.add(PoriginLocation);
+            document.add(PdepartureTime);
+            document.add(ParrivalTime);
+            document.add(PticketPrice);
+            document.add(PETA);
+
             document.close();
         } catch (DocumentException | FileNotFoundException e) {
             e.printStackTrace();
