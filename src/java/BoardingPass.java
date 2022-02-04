@@ -24,12 +24,13 @@ public class BoardingPass {
         Singapore,
         Tokyo,
         Vancouver,
-        Washington_DC
+        Washington_DC,
+        Unknown
     }
     private Locations originLocation;
     private Locations destinationLocation;
-    private Date arrivalTime;
     private Date departureTime;
+    private Date arrivalTime;
     private double ticketPrice;
 
     // getters and setters
@@ -88,4 +89,9 @@ public class BoardingPass {
     }
 
     // todo create method to convert milliseconds to hh:mm:ss
+
+    @Override
+    public String toString() {
+        return "Boarding Pass" + "\n  departure city: " + getOriginLocation() + "\n  arrival city: " + getDestinationLocation();
+    }
 }
