@@ -3,6 +3,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 
+import com.lowagie.text.*;
+import com.lowagie.text.pdf.BarcodePDF417;
+import com.lowagie.text.pdf.PdfWriter;
+
 public class WritetoFile {
     FileWriter fw;
 
@@ -103,6 +107,43 @@ public class WritetoFile {
             fr.close();
             fw.close();
         } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void pdf(){
+        FileReader fr = null;
+        try {
+            /*
+            fr = new FileReader("ticketInfo.txt");
+            Scanner myReader = new Scanner(fr);
+            String name = myReader.nextLine();
+            String email = myReader.nextLine();
+            String number = myReader.nextLine();
+            String gender = myReader.nextLine();
+            String age = myReader.nextLine();
+
+            String bpNumber = myReader.nextLine();
+            String destinationLocation = myReader.nextLine();
+            String originLocation = myReader.nextLine();
+            String departureTime = myReader.nextLine();
+            String arrivalTime = myReader.nextLine();
+            String ticketPrice = myReader.nextLine();
+            String ETA = myReader.nextLine();
+            myReader.close();
+            */
+            BarcodePDF417 pdf417 = new BarcodePDF417();
+            Document document = new Document(PageSize.A4, 50, 50, 50, 50);
+            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("ExampleBarcodePDF417.pdf"));
+            //writer.
+            document.open();
+            Image img = pdf417.getImage();
+            img.scalePercent(50, 50 * pdf417.getYHeight());
+            document.add(img);
+            Paragraph paragraph = new Paragraph("test");
+            document.add(paragraph);
+            document.close();
+        } catch (DocumentException | FileNotFoundException e) {
             e.printStackTrace();
         }
     }
