@@ -27,6 +27,20 @@ public class BoardingPass {
         Washington_DC,
         Unknown
     }
+    enum Months {
+        January,
+        February,
+        March,
+        April,
+        May,
+        June,
+        July,
+        August,
+        September,
+        October,
+        November,
+        December
+    }
     private Locations originLocation;
     private Locations destinationLocation;
     private Date departureTime;
@@ -87,8 +101,6 @@ public class BoardingPass {
     public long getEta(){
         return Math.subtractExact(arrivalTime.getTime(), departureTime.getTime());
     }
-
-    // todo create method to convert milliseconds to hh:mm:ss
 
     @Override
     public String toString() {
