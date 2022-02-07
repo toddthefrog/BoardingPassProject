@@ -31,12 +31,9 @@ public class WritetoFile {
                 fw.write(customer.getEmail());
                 fw.newLine();
                 fw.write(customer.getNumber());
-<<<<<<< Updated upstream
                 fw.newLine();
                 //enum
                 fw.write(String.valueOf(boardingPass.getBoardingPassNumber()));
-=======
->>>>>>> Stashed changes
                 fw.newLine();
 
                 //enum
