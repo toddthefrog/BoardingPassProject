@@ -1,3 +1,4 @@
+import java.text.DecimalFormat;
 import java.util.Date;
 
 public class BoardingPass {
@@ -94,7 +95,7 @@ public class BoardingPass {
     }
 
     public void setTicketPrice(double ticketPrice) {
-        this.ticketPrice = ticketPrice;
+        this.ticketPrice = Math.round(ticketPrice*100.0)/100.0;
     }
 
     public String getEta() {
@@ -107,6 +108,7 @@ public class BoardingPass {
 
     @Override
     public String toString() {
-        return "Boarding Pass" + "\n  departure city: " + getOriginLocation() + "\n  departure time: " + getDepartureTime() + "\n  arrival city: " + getDestinationLocation() + "\n  arrival time: " + getArrivalTime() + "\n eta: " + getEta();
+        DecimalFormat df = new DecimalFormat("#.##");
+        return "Boarding Pass" + "\n  departure city: " + getOriginLocation() + "\n  departure time: " + getDepartureTime() + "\n  arrival city: " + getDestinationLocation() + "\n  arrival time: " + getArrivalTime() + "\n eta: " + getEta() + "\n price: $" + getTicketPrice();
     }
 }
