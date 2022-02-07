@@ -36,10 +36,6 @@ public class WritetoFile {
                 fw.write(String.valueOf(boardingPass.getBoardingPassNumber()));
                 fw.newLine();
 
-                //enum
-                fw.write(String.valueOf(boardingPass.getBoardingPassNumber()));
-                fw.newLine();
-
                 //locations
                 fw.write(String.valueOf(boardingPass.getOriginLocation()));
                 fw.newLine();
