@@ -294,7 +294,6 @@ public class WritetoFile {
 
              */
             document.add(Chunk.NEWLINE);
-            document.add(Chunk.NEWLINE);
             document.add(img);
 
 
