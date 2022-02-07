@@ -33,6 +33,8 @@ public class CommandLineApp {
         // ask for dates then generate options
         generateFlightsToDestination(3, boardingPass);
         setArrivalTime(boardingPass);
+        generateTicketPrice(customer,boardingPass);
+        System.out.println(boardingPass.getTicketPrice());
 //        generateFlightsToOrigin(3, boardingPass);
         System.out.println(customer);
         System.out.println(boardingPass);
@@ -58,17 +60,10 @@ public class CommandLineApp {
         customer.setNumber(input);
     }
 
-    enum Genders {
-        Male,
-        Female,
-        Other,
-        Java_Developer
-    }
-
     public void requestGender(Customer customer) {
         slowPrint("What is your gender? Format: 1-4 \n");
         int i = 1;
-        for (Genders gender : Genders.values()) {
+        for (Customer.Genders gender : Customer.Genders.values()) {
             System.out.println(i + " " + gender + "\t");
             i++;
         }
@@ -80,19 +75,17 @@ public class CommandLineApp {
         }
         switch (input) {
             case 1:
-                customer.setGender("Male");
+                customer.setGender(Customer.Genders.Male);
                 break;
             case 2:
-                customer.setGender("Female");
+                customer.setGender(Customer.Genders.Female);
                 break;
             case 3:
-                customer.setGender("Other");
+                customer.setGender(Customer.Genders.Other);
                 break;
             case 4:
-                customer.setGender("Java Developer");
+                customer.setGender(Customer.Genders.Java_Developer);
                 break;
-            default:
-                customer.setGender("Unknown");
         }
     }
 
@@ -548,6 +541,26 @@ public class CommandLineApp {
         sb.append(" Seconds");
 
         return(sb.toString());
+    }
+
+    public void generateTicketPrice(Customer customer, BoardingPass boardingPass){
+        double standardPrice = (distance / 18.8);
+        // less than 12 = 50% off
+        if (customer.getAge() <= 12){
+            boardingPass.setTicketPrice(standardPrice * 0.5);
+        }
+        // greater than 12 && < 60 = normal price
+        if(customer.getAge() > 12 && customer.getAge() < 60){
+            boardingPass.setTicketPrice(standardPrice);
+            // check if female
+            if (customer.getGender() == Customer.Genders.Female){
+                boardingPass.setTicketPrice(standardPrice * 0.75);
+            }
+        }
+        // if customer is over 60
+        if (customer.getAge() >= 60){
+            boardingPass.setTicketPrice(standardPrice * 0.40);
+        }
     }
 
     // the following method prints to the console with a delay between each character
