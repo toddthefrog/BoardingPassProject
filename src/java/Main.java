@@ -8,6 +8,6 @@ public class Main {
         WritetoFile writetoFile = new WritetoFile();
         app.start(customer, boardingPass);
         writetoFile.ticketInfo(customer, boardingPass);
-        writetoFile.pdf();
+        writetoFile.pdf(boardingPass);
     }
 }

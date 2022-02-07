@@ -1,10 +1,14 @@
+import java.awt.*;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 
 import com.lowagie.text.*;
+import com.lowagie.text.Font;
+import com.lowagie.text.Image;
 import com.lowagie.text.pdf.BarcodePDF417;
+import com.lowagie.text.pdf.FontSelector;
 import com.lowagie.text.pdf.PdfWriter;
 
 public class WritetoFile {
@@ -126,10 +130,11 @@ public class WritetoFile {
         }
     }
 
-    public void pdf(){
+    public void pdf(BoardingPass boardingPass){
         try {
             FileReader fr = new FileReader("ticketInfo.txt");
             Scanner myReader = new Scanner(fr);
+            /*
             String name = myReader.nextLine();
             Paragraph PName = new Paragraph(name);
             String email = myReader.nextLine();
@@ -155,17 +160,127 @@ public class WritetoFile {
             Paragraph PticketPrice = new Paragraph(ticketPrice);
             //String ETA = myReader.nextLine();
             //Paragraph PETA = new Paragraph(ETA);
-            myReader.close();
 
+
+            myReader.close();
+*/
             BarcodePDF417 pdf417 = new BarcodePDF417();
             Document document = new Document(PageSize.A4, 50, 50, 50, 50);
             PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("Ticket.pdf"));
             //writer.
             document.open();
+            pdf417.setText(String.valueOf(boardingPass.getBoardingPassNumber()));
             Image img = pdf417.getImage();
-            img.scalePercent(100, 100 * pdf417.getYHeight());
-            document.add(img);
-            document.add(PName);
+            img.scalePercent(300, 300 * pdf417.getYHeight());
+            //document.addTitle("Ticket");
+            FontSelector selector = new FontSelector();
+            Font f1 = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 30);
+            f1.setColor(Color.blue);
+            selector.addFont(f1);
+            Phrase ph = selector.process("Ticket Information");
+            Paragraph title = new Paragraph(ph);
+            document.add(title);
+
+            int i = 1;
+            String line;
+            Paragraph PLine = new Paragraph(ph);
+
+            //line = " ";
+            //PLine = new Paragraph(line);
+            //document.add(PLine);
+            //document.add(PLine);
+            document.add(Chunk.NEWLINE);
+            document.add(Chunk.NEWLINE);
+            document.add(Chunk.NEWLINE);
+
+            while (myReader.hasNextLine()){
+                switch (i){
+                    case 1:
+                        f1.setSize(13);
+                        f1.setColor(Color.BLACK);
+                        selector.addFont(f1);
+                        ph = selector.process("Passenger Information: ");
+                        PLine = new Paragraph(ph);
+                        document.add(PLine);
+                        document.add(Chunk.NEWLINE);
+                        line = "Passenger Name: ";
+                        PLine = new Paragraph(line);
+                        document.add(PLine);
+                        break;
+                    case 2:
+                        line = "Passenger Gender:";
+                        PLine = new Paragraph(line);
+                        document.add(PLine);
+                        break;
+                    case 4:
+                        line = "Passenger Age: ";
+                        PLine = new Paragraph(line);
+                        document.add(PLine);
+                        break;
+                    case 5:
+                        line = "Passenger Email:";
+                        PLine = new Paragraph(line);
+                        document.add(PLine);
+                        break;
+                    case 6:
+                        line = "Passenger Phone Number: ";
+                        PLine = new Paragraph(line);
+                        document.add(PLine);
+                        break;
+                    case 7:
+                        line = "Boarding Pass Number: ";
+                        PLine = new Paragraph(line);
+                        document.add(PLine);
+                        break;
+                    case 8:
+                        document.add(Chunk.NEWLINE);
+                        document.add(Chunk.NEWLINE);
+                        ph = selector.process("Travel Information: ");
+                        PLine = new Paragraph(ph);
+                        document.add(PLine);
+                        document.add(Chunk.NEWLINE);
+                        break;
+                    case 9:
+                        line = "From: ";
+                        PLine = new Paragraph(line);
+                        document.add(PLine);
+                        break;
+                    case 10:
+                        line = "Departure Time: ";
+                        PLine = new Paragraph(line);
+                        document.add(PLine);
+                        break;
+                    case 11:
+                        line = "To: ";
+                        PLine = new Paragraph(line);
+                        document.add(PLine);
+                        break;
+                    case 12:
+                        line = "Arrival Time: ";
+                        PLine = new Paragraph(line);
+                        document.add(PLine);
+                        break;
+                    case 13:
+                        line = "ETA: ";
+                        PLine = new Paragraph(line);
+                        document.add(PLine);
+                        break;
+                    case 14:
+                        line = "Fare: ";
+                        PLine = new Paragraph(line);
+                        document.add(PLine);
+                        break;
+                }
+
+                line = myReader.nextLine();
+                Paragraph paragraph = new Paragraph(line);
+                paragraph.setIndentationRight(50);
+                document.add(paragraph);
+                i++;
+            }
+            myReader.close();
+
+            /*
             //document.add(PEmail);
             document.add(PNumber);
             document.add(PGender);
@@ -178,6 +293,10 @@ public class WritetoFile {
             document.add(ParrivalTime);
             document.add(PticketPrice);
             //document.add(PETA);
+
+             */
+            document.add(img);
+
 
             document.close();
         } catch (DocumentException | FileNotFoundException e) {
