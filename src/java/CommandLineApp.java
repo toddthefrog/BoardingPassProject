@@ -8,10 +8,8 @@ import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
-import java.util.Scanner;
+import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
 public class CommandLineApp {
@@ -21,18 +19,18 @@ public class CommandLineApp {
 
     public void start(Customer customer, BoardingPass boardingPass) {
         // get customer info
-//        requestName(customer);
-//        requestEmail(customer);
-//        requestNumber(customer);
-//        requestGender(customer);
-//        requestAge(customer);
+        requestName(customer);
+        requestEmail(customer);
+        requestNumber(customer);
+        requestGender(customer);
+        requestAge(customer);
         // generate boarding pass
         requestDepartureLocation(boardingPass);
         requestDestinationLocation(boardingPass);
         httpCallForDistanceAndFlightTime(boardingPass);
         // ask for dates then generate options
-        setDateDepartingOrigin();
-        setDateDepartingDestination();
+        generateFlightsToDestination(3, boardingPass);
+        generateFlightsToOrigin(3, boardingPass);
         System.out.println(customer);
         System.out.println(boardingPass);
         // close scanner
@@ -282,19 +280,19 @@ public class CommandLineApp {
                 double speedOfPlaneInKilometersPerHour = 865.0; // speed of boeing 777 in kilometers per hour
                 double timeToCruisingAltitudePenalty = 3600.0;  // 1 hour in seconds
                 double tripTimeInSeconds = ((((distance / speedOfPlaneInKilometersPerHour) * 60.0) * 60.0) + timeToCruisingAltitudePenalty);// trip time in seconds
-                System.out.println("\ntrip time in seconds: " + tripTimeInSeconds);
+//                System.out.println("\ntrip time in seconds: " + tripTimeInSeconds);
                 double milliseconds = tripTimeInSeconds * 1000.0; // trip time in milliseconds
-                System.out.println("\ntrip time in milliseconds: " + milliseconds);
-                System.out.println("\nDistance in kilometers: " + distance);
+//                System.out.println("\ntrip time in milliseconds: " + milliseconds);
+//                System.out.println("\nDistance in kilometers: " + distance);
                 // date test
                 Calendar calendar = Calendar.getInstance();
                 Date today = calendar.getTime();
                 SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy hh:mm:ss a");
-                System.out.println("\nCurrent time: " + sdf.format(today));
+//                System.out.println("\nCurrent time: " + sdf.format(today));
                 // add milliseconds to date
                 calendar.add(Calendar.MILLISECOND, (int) milliseconds);
                 Date addMilliSeconds = calendar.getTime();
-                System.out.println("\nTime after" + tripTimeInSeconds + " seconds: " + sdf.format(addMilliSeconds));
+//                System.out.println("\nTime after" + tripTimeInSeconds + " seconds: " + sdf.format(addMilliSeconds));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -412,23 +410,90 @@ public class CommandLineApp {
         return newDate;
     }
 
-    public void setDateDepartingOrigin(){
+    public Date setDateDepartingOrigin(){
         String tempDate = requestYearLeavingOrigin();
         tempDate = requestMonthLeaving(tempDate);
-        Date date = requestDateLeaving(tempDate);
-        System.out.println("date departing origin: " + date);
+        return requestDateLeaving(tempDate);
     }
 
-    public void setDateDepartingDestination(){
+    public Date setDateDepartingDestination(){
         String tempDate = requestYearLeavingDestination();
         tempDate = requestMonthLeaving(tempDate);
-        Date date = requestDateLeaving(tempDate);
-        System.out.println("date departing destination: " + date);
+        return requestDateLeaving(tempDate);
     }
 
-    public void generateFlightsToDestination(Date date){
+    public void generateFlightsToDestination(int numberOfFlightsToGenerate, BoardingPass boardingPass){
+        Date date = setDateDepartingDestination();
         // generate 3 flights, Morning, Afternoon and Evening from incoming Date
-        int numberOfFlightsToGenerate = 3;
+        int randomMorningHour = ThreadLocalRandom.current().nextInt(0,  11 + 1);
+        int randomAfternoonHour = ThreadLocalRandom.current().nextInt(12,  + 16 + 1);
+        int randomEveningHour = ThreadLocalRandom.current().nextInt(16,  + 24 + 1);
+        int randomMorningMinutes = ThreadLocalRandom.current().nextInt(0,  60 + 1);
+        int randomAfternoonMinutes = ThreadLocalRandom.current().nextInt(0,  60 + 1);
+        int randomEveningMinutes = ThreadLocalRandom.current().nextInt(0,  60 + 1);
+        ArrayList<Date> dates = new ArrayList<Date>();
+        Calendar one = Calendar.getInstance();
+        one.setTime(date);
+        one.add(Calendar.HOUR_OF_DAY, randomMorningHour);
+        one.add(Calendar.MINUTE, randomMorningMinutes);
+        dates.add(one.getTime());
+        Calendar two = Calendar.getInstance();
+        two.setTime(date);
+        two.add(Calendar.HOUR_OF_DAY, randomAfternoonHour);
+        two.add(Calendar.MINUTE, randomAfternoonMinutes);
+        dates.add(two.getTime());
+        Calendar three = Calendar.getInstance();
+        three.setTime(date);
+        three.add(Calendar.HOUR_OF_DAY, randomEveningHour);
+        three.add(Calendar.MINUTE, randomEveningMinutes);
+        dates.add(three.getTime());
+        slowPrint("\nWhich flight would you like? Example: 1\n");
+        int i = 1;
+        for (Date flightDate : dates) {
+            System.out.println(i + " - " + flightDate + "\n");
+            i++;
+        }
+        if (getInput.hasNextInt()){
+            int input = getInput.nextInt();
+            boardingPass.setDepartureTime(dates.get(input - 1));
+        }
+    }
+
+    public void generateFlightsToOrigin(int numberOfFlightsToGenerate, BoardingPass boardingPass){
+        Date date = setDateDepartingDestination();
+        // generate 3 flights, Morning, Afternoon and Evening from incoming Date
+        int randomMorningHour = ThreadLocalRandom.current().nextInt(0,  11 + 1);
+        int randomAfternoonHour = ThreadLocalRandom.current().nextInt(12,  + 16 + 1);
+        int randomEveningHour = ThreadLocalRandom.current().nextInt(16,  + 24 + 1);
+        int randomMorningMinutes = ThreadLocalRandom.current().nextInt(0,  60 + 1);
+        int randomAfternoonMinutes = ThreadLocalRandom.current().nextInt(0,  60 + 1);
+        int randomEveningMinutes = ThreadLocalRandom.current().nextInt(0,  60 + 1);
+        ArrayList<Date> dates = new ArrayList<Date>();
+        Calendar one = Calendar.getInstance();
+        one.setTime(date);
+        one.add(Calendar.HOUR_OF_DAY, randomMorningHour);
+        one.add(Calendar.MINUTE, randomMorningMinutes);
+        dates.add(one.getTime());
+        Calendar two = Calendar.getInstance();
+        two.setTime(date);
+        two.add(Calendar.HOUR_OF_DAY, randomAfternoonHour);
+        two.add(Calendar.MINUTE, randomAfternoonMinutes);
+        dates.add(two.getTime());
+        Calendar three = Calendar.getInstance();
+        three.setTime(date);
+        three.add(Calendar.HOUR_OF_DAY, randomEveningHour);
+        three.add(Calendar.MINUTE, randomEveningMinutes);
+        dates.add(three.getTime());
+        slowPrint("\nWhich flight would you like? Example: 1\n");
+        int i = 1;
+        for (Date flightDate : dates) {
+            System.out.println(i + " - " + flightDate + "\n");
+            i++;
+        }
+        if (getInput.hasNextInt()){
+            int input = getInput.nextInt();
+            boardingPass.setArrivalTime(dates.get(input - 1));
+        }
     }
 
     // the following method prints to the console with a delay between each character
