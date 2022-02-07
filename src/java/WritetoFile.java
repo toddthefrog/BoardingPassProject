@@ -49,10 +49,10 @@ public class WritetoFile {
                 fw.write(String.valueOf(boardingPass.getArrivalTime()));
                 fw.newLine();
                 //double
-                fw.write(String.valueOf(boardingPass.getTicketPrice()));
+                fw.write(String.valueOf(boardingPass.getEta()));
                 fw.newLine();
                 //long
-                //fw.write(String.valueOf(boardingPass.getEta()));
+                fw.write(String.valueOf(boardingPass.getTicketPrice()));
 
                 fw.close();
 
@@ -259,12 +259,12 @@ public class WritetoFile {
                         PLine = new Paragraph(line);
                         document.add(PLine);
                         break;
-                    case 13:
+                    case 11:
                         line = "ETA: ";
                         PLine = new Paragraph(line);
                         document.add(PLine);
                         break;
-                    case 14:
+                    case 12:
                         line = "Fare: ";
                         PLine = new Paragraph(line);
                         document.add(PLine);
@@ -295,7 +295,6 @@ public class WritetoFile {
             //document.add(PETA);
 
              */
-            document.add(Chunk.NEWLINE);
             document.add(Chunk.NEWLINE);
             document.add(Chunk.NEWLINE);
             document.add(Chunk.NEWLINE);
