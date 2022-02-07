@@ -37,6 +37,7 @@ public class CommandLineApp {
         generateFlightsToDestination(3, boardingPass);
         setArrivalTime(boardingPass);
         generateTicketPrice(customer,boardingPass);
+        generateBPNumber(customer, boardingPass);
         System.out.println(boardingPass.getTicketPrice());
 //        generateFlightsToOrigin(3, boardingPass);
         System.out.println(customer);
@@ -91,6 +92,7 @@ public class CommandLineApp {
                 break;
         }
     }
+
 
     public void generateBPNumber(BoardingPass boardingPass){
         int boardingPassHashCode = Math.abs(boardingPass.hashCode());
