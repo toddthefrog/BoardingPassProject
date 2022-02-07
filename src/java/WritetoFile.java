@@ -1,12 +1,12 @@
 import java.io.*;
 import java.util.*;
-
 import com.lowagie.text.*;
-import com.lowagie.text.Font;
-import com.lowagie.text.Image;
 import com.lowagie.text.pdf.BarcodePDF417;
 import com.lowagie.text.pdf.FontSelector;
 import com.lowagie.text.pdf.PdfWriter;
+
+import java.io.*;
+import java.util.Scanner;
 
 public class WritetoFile {
     FileWriter fw;
@@ -20,7 +20,7 @@ public class WritetoFile {
 
                 fw.write(customer.getName());
                 fw.newLine();
-                fw.write(customer.getGender());
+                fw.write(customer.getGender().toString());
                 fw.newLine();
                 fw.write(String.valueOf(customer.getAge()));
                 fw.newLine();

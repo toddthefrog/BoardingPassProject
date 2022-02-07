@@ -37,8 +37,8 @@ class CustomerTest {
 
     @Test
     void getGender() {
-        customer.setGender("F");
-        assertEquals("F",customer.getGender());
+        customer.setGender(Customer.Genders.Female);
+        assertEquals(Customer.Genders.Female,customer.getGender());
     }
 
     @Test

@@ -1,9 +1,13 @@
+import java.text.DecimalFormat;
 import java.util.Date;
+import java.util.Objects;
 
 public class BoardingPass {
 
     // variables
     private int boardingPassNumber;
+    private int customerNumber;
+    private String eta;
     enum Locations {
         Atlanta,
         Amsterdam,
@@ -24,8 +28,21 @@ public class BoardingPass {
         Singapore,
         Tokyo,
         Vancouver,
-        Washington_DC,
-        Unknown
+        Washington_DC
+    }
+    enum Months {
+        January,
+        February,
+        March,
+        April,
+        May,
+        June,
+        July,
+        August,
+        September,
+        October,
+        November,
+        December
     }
     private Locations originLocation;
     private Locations destinationLocation;
@@ -34,6 +51,16 @@ public class BoardingPass {
     private double ticketPrice;
 
     // getters and setters
+
+
+    public int getCustomerNumber() {
+        return customerNumber;
+    }
+
+    public void setCustomerNumber(int customerNumber) {
+        this.customerNumber = customerNumber;
+    }
+
     public int getBoardingPassNumber() {
         return boardingPassNumber;
     }
@@ -58,7 +85,6 @@ public class BoardingPass {
         this.originLocation = originLocation;
     }
 
-
     public Date getDepartureTime() {
         return departureTime;
     }
@@ -80,18 +106,33 @@ public class BoardingPass {
     }
 
     public void setTicketPrice(double ticketPrice) {
-        this.ticketPrice = ticketPrice;
+        this.ticketPrice = Math.round(ticketPrice*100.0)/100.0;
     }
 
-    // returned in milliseconds
-    public long getEta(){
-        return Math.subtractExact(arrivalTime.getTime(), departureTime.getTime());
+    public String getEta() {
+        return eta;
     }
 
-    // todo create method to convert milliseconds to hh:mm:ss
+    public void setEta(String eta) {
+        this.eta = eta;
+    }
 
     @Override
     public String toString() {
-        return "Boarding Pass" + "\n  departure city: " + getOriginLocation() + "\n  arrival city: " + getDestinationLocation();
+        DecimalFormat df = new DecimalFormat("#.##");
+        return "Boarding Pass" + "\n  departure city: " + getOriginLocation() + "\n  departure time: " + getDepartureTime() + "\n  arrival city: " + getDestinationLocation() + "\n  arrival time: " + getArrivalTime() + "\n eta: " + getEta() + "\n price: $" + getTicketPrice();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof BoardingPass)) return false;
+        BoardingPass that = (BoardingPass) o;
+        return getBoardingPassNumber() == that.getBoardingPassNumber() && getCustomerNumber() == that.getCustomerNumber() && Double.compare(that.getTicketPrice(), getTicketPrice()) == 0 && getEta().equals(that.getEta()) && getOriginLocation() == that.getOriginLocation() && getDestinationLocation() == that.getDestinationLocation() && getDepartureTime().equals(that.getDepartureTime()) && getArrivalTime().equals(that.getArrivalTime());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getBoardingPassNumber(), getCustomerNumber(), getEta(), getOriginLocation(), getDestinationLocation(), getDepartureTime(), getArrivalTime(), getTicketPrice());
     }
 }
