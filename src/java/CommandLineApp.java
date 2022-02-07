@@ -16,6 +16,8 @@ public class CommandLineApp {
 
     // create scanner
     Scanner getInput = new Scanner(System.in);
+    int distance;
+    int speedOfPlaneInKilometersPerHour;
 
     public void start(Customer customer, BoardingPass boardingPass) {
         // get customer info
@@ -30,7 +32,8 @@ public class CommandLineApp {
         httpCallForDistanceAndFlightTime(boardingPass);
         // ask for dates then generate options
         generateFlightsToDestination(3, boardingPass);
-        generateFlightsToOrigin(3, boardingPass);
+        setArrivalTime(boardingPass);
+//        generateFlightsToOrigin(3, boardingPass);
         System.out.println(customer);
         System.out.println(boardingPass);
         // close scanner
@@ -55,9 +58,20 @@ public class CommandLineApp {
         customer.setNumber(input);
     }
 
+    enum Genders {
+        Male,
+        Female,
+        Other,
+        Java_Developer
+    }
+
     public void requestGender(Customer customer) {
         slowPrint("What is your gender? Format: 1-4 \n");
-        slowPrint("(1) Male (2) Female (3) Other (4) Java Developer \n");
+        int i = 1;
+        for (Genders gender : Genders.values()) {
+            System.out.println(i + " " + gender + "\t");
+            i++;
+        }
         int input;
         if (getInput.hasNextInt()) {
             input = getInput.nextInt();
@@ -95,7 +109,7 @@ public class CommandLineApp {
     }
 
     public void requestDepartureLocation(BoardingPass boardingPass) {
-        slowPrint("What is your departure city? \n\n");
+        slowPrint("What is your departure city?\n");
         int i = 1;
         for (BoardingPass.Locations location : BoardingPass.Locations.values()) {
             System.out.println(i + " " + location + "\t");
@@ -175,7 +189,7 @@ public class CommandLineApp {
     }
 
     public void requestDestinationLocation(BoardingPass boardingPass) {
-        slowPrint("What is your arrival city? \n\n");
+        slowPrint("What is your arrival city?\n");
         int i = 1;
         for (BoardingPass.Locations location : BoardingPass.Locations.values()) {
             System.out.println(i + " " + location + "\t");
@@ -276,10 +290,10 @@ public class CommandLineApp {
                 Object obj = new JSONParser().parse(response.body().string());
                 JSONObject jo = (JSONObject) obj;
                 JSONArray ja = (JSONArray) jo.get("distances");
-                double distance = Double.parseDouble(ja.get(0).toString()); // distance in km
-                double speedOfPlaneInKilometersPerHour = 865.0; // speed of boeing 777 in kilometers per hour
-                double timeToCruisingAltitudePenalty = 3600.0;  // 1 hour in seconds
-                double tripTimeInSeconds = ((((distance / speedOfPlaneInKilometersPerHour) * 60.0) * 60.0) + timeToCruisingAltitudePenalty);// trip time in seconds
+                distance = Integer.parseInt(ja.get(0).toString()); // distance in km
+                speedOfPlaneInKilometersPerHour = 865; // speed of boeing 777 in kilometers per hour
+                int timeToCruisingAltitudePenalty = 3600;  // 1 hour in seconds
+                int tripTimeInSeconds = ((((distance / speedOfPlaneInKilometersPerHour) * 60) * 60) + timeToCruisingAltitudePenalty);// trip time in seconds
 //                System.out.println("\ntrip time in seconds: " + tripTimeInSeconds);
                 double milliseconds = tripTimeInSeconds * 1000.0; // trip time in milliseconds
 //                System.out.println("\ntrip time in milliseconds: " + milliseconds);
@@ -301,31 +315,34 @@ public class CommandLineApp {
         }
     }
 
-    public String requestYearLeavingOrigin() {
-        int input = 0;
+    public String requestYearLeaving() {
+        String year = "";
         String date = null;
         // request year leaving
 
-        slowPrint("\n What year would you like to leave for your origin?");
-        slowPrint("\n Example: 2022\n");
-        if (getInput.hasNextInt()) {
-            input = getInput.nextInt();
+        slowPrint("What year would you like to leave?\n");
+        // old
+//        slowPrint("Example: 2022\n");
+//        if (getInput.hasNextInt()) {
+//            input = getInput.nextInt();
+//        }
+        // new
+        slowPrint("1 - 2022\n");
+        slowPrint("2 - 2023\n");
+        if (getInput.hasNextInt()){
+            int input = getInput.nextInt();
+            if (input == 1){
+                year = "2022";
+            } else if (input == 2){
+                year = "2023";
+            }
+            else {
+                slowPrint("please choose 1 or 2");
+                requestYearLeaving();
+            }
         }
-        date = String.valueOf(input + "-");
-        return date;
-    }
 
-    public String requestYearLeavingDestination() {
-        int input = 0;
-        String date = null;
-        // request year leaving
-
-        slowPrint("\n What year would you like to leave for your destination?");
-        slowPrint("\n Example: 2022\n");
-        if (getInput.hasNextInt()) {
-            input = getInput.nextInt();
-        }
-        date = String.valueOf(input + "-");
+        date = String.valueOf(year + "-");
         return date;
     }
 
@@ -411,13 +428,13 @@ public class CommandLineApp {
     }
 
     public Date setDateDepartingOrigin(){
-        String tempDate = requestYearLeavingOrigin();
+        String tempDate = requestYearLeaving();
         tempDate = requestMonthLeaving(tempDate);
         return requestDateLeaving(tempDate);
     }
 
     public Date setDateDepartingDestination(){
-        String tempDate = requestYearLeavingDestination();
+        String tempDate = requestYearLeaving();
         tempDate = requestMonthLeaving(tempDate);
         return requestDateLeaving(tempDate);
     }
@@ -425,12 +442,12 @@ public class CommandLineApp {
     public void generateFlightsToDestination(int numberOfFlightsToGenerate, BoardingPass boardingPass){
         Date date = setDateDepartingDestination();
         // generate 3 flights, Morning, Afternoon and Evening from incoming Date
-        int randomMorningHour = ThreadLocalRandom.current().nextInt(0,  11 + 1);
-        int randomAfternoonHour = ThreadLocalRandom.current().nextInt(12,  + 16 + 1);
-        int randomEveningHour = ThreadLocalRandom.current().nextInt(16,  + 24 + 1);
-        int randomMorningMinutes = ThreadLocalRandom.current().nextInt(0,  60 + 1);
-        int randomAfternoonMinutes = ThreadLocalRandom.current().nextInt(0,  60 + 1);
-        int randomEveningMinutes = ThreadLocalRandom.current().nextInt(0,  60 + 1);
+        int randomMorningHour = ThreadLocalRandom.current().nextInt(0,  11);
+        int randomAfternoonHour = ThreadLocalRandom.current().nextInt(12,  + 16);
+        int randomEveningHour = ThreadLocalRandom.current().nextInt(16,  + 24);
+        int randomMorningMinutes = ThreadLocalRandom.current().nextInt(0,  60);
+        int randomAfternoonMinutes = ThreadLocalRandom.current().nextInt(0,  60);
+        int randomEveningMinutes = ThreadLocalRandom.current().nextInt(0,  60);
         ArrayList<Date> dates = new ArrayList<Date>();
         Calendar one = Calendar.getInstance();
         one.setTime(date);
@@ -494,6 +511,43 @@ public class CommandLineApp {
             int input = getInput.nextInt();
             boardingPass.setArrivalTime(dates.get(input - 1));
         }
+    }
+
+    public void setArrivalTime(BoardingPass boardingPass){
+        Date departureTime = boardingPass.getDepartureTime();
+        long departureLong = departureTime.getTime();
+        int timeInHours = distance / speedOfPlaneInKilometersPerHour;
+        // convert to seconds
+        long timeInMilliseconds = timeInHours * 3600000L;
+        Date ETA = new Date(departureLong + timeInMilliseconds);
+        boardingPass.setArrivalTime(ETA);
+        boardingPass.setEta(getDurationBreakdown(timeInMilliseconds));
+    }
+
+    public static String getDurationBreakdown(long millis) {
+        if(millis < 0) {
+            throw new IllegalArgumentException("Duration must be greater than zero!");
+        }
+
+        long days = TimeUnit.MILLISECONDS.toDays(millis);
+        millis -= TimeUnit.DAYS.toMillis(days);
+        long hours = TimeUnit.MILLISECONDS.toHours(millis);
+        millis -= TimeUnit.HOURS.toMillis(hours);
+        long minutes = TimeUnit.MILLISECONDS.toMinutes(millis);
+        millis -= TimeUnit.MINUTES.toMillis(minutes);
+        long seconds = TimeUnit.MILLISECONDS.toSeconds(millis);
+
+        StringBuilder sb = new StringBuilder(64);
+        sb.append(days);
+        sb.append(" Days ");
+        sb.append(hours);
+        sb.append(" Hours ");
+        sb.append(minutes);
+        sb.append(" Minutes ");
+        sb.append(seconds);
+        sb.append(" Seconds");
+
+        return(sb.toString());
     }
 
     // the following method prints to the console with a delay between each character

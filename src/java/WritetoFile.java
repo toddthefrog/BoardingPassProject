@@ -1,13 +1,15 @@
+import java.awt.*;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.*;
+
+import com.lowagie.text.*;
 import com.lowagie.text.Font;
 import com.lowagie.text.Image;
-import com.lowagie.text.*;
 import com.lowagie.text.pdf.BarcodePDF417;
 import com.lowagie.text.pdf.FontSelector;
 import com.lowagie.text.pdf.PdfWriter;
-
-import java.awt.*;
-import java.io.*;
-import java.util.Scanner;
 
 public class WritetoFile {
     FileWriter fw;
@@ -30,7 +32,6 @@ public class WritetoFile {
                 fw.newLine();
                 fw.write(customer.getNumber());
                 fw.newLine();
-
                 //enum
                 fw.write(String.valueOf(boardingPass.getBoardingPassNumber()));
                 fw.newLine();

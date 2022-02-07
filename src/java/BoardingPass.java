@@ -4,6 +4,8 @@ public class BoardingPass {
 
     // variables
     private int boardingPassNumber;
+    private String eta;
+
     enum Locations {
         Atlanta,
         Amsterdam,
@@ -97,13 +99,17 @@ public class BoardingPass {
         this.ticketPrice = ticketPrice;
     }
 
-    // returned in milliseconds
-    public long getEta(){
-        return Math.subtractExact(arrivalTime.getTime(), departureTime.getTime());
+
+    public String getEta() {
+        return eta;
+    }
+
+    public void setEta(String eta) {
+        this.eta = eta;
     }
 
     @Override
     public String toString() {
-        return "Boarding Pass" + "\n  departure city: " + getOriginLocation() + "\n  departure time: " + getDepartureTime() + "\n  arrival city: " + getDestinationLocation() + "\n  arrival time: " + getArrivalTime();
+        return "Boarding Pass" + "\n  departure city: " + getOriginLocation() + "\n  departure time: " + getDepartureTime() + "\n  arrival city: " + getDestinationLocation() + "\n  arrival time: " + getArrivalTime() + "\n eta: " + getEta();
     }
 }
