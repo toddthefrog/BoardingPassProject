@@ -183,9 +183,6 @@ public class CommandLineApp {
                     case 20:
                         boardingPass.setOriginLocation(BoardingPass.Locations.Washington_DC);
                         break;
-                    default:
-                        boardingPass.setOriginLocation(BoardingPass.Locations.Unknown);
-                        break;
                 }
             }
         }
@@ -264,9 +261,6 @@ public class CommandLineApp {
                     case 20:
                         boardingPass.setDestinationLocation(BoardingPass.Locations.Washington_DC);
                         break;
-                    default:
-                        boardingPass.setDestinationLocation(BoardingPass.Locations.Unknown);
-                        break;
                 }
             }
         }
@@ -334,17 +328,19 @@ public class CommandLineApp {
         slowPrint("2 - 2023\n");
         if (getInput.hasNextInt()){
             int input = getInput.nextInt();
-            if (input == 1){
+            if (input == 1 || input == 2){
                 year = "2022";
-            } else if (input == 2){
-                year = "2023";
-            }
-            else {
+                if (input == 1){
+                    year = "2022";
+                }
+                if (input == 2){
+                    year = "2023";
+                }
+            } else {
                 slowPrint("please choose 1 or 2");
                 requestYearLeaving();
             }
         }
-
         date = String.valueOf(year + "-");
         return date;
     }
@@ -352,7 +348,7 @@ public class CommandLineApp {
     public String requestMonthLeaving(String date) {
         int input;
         // request month leaving
-        slowPrint("\nWhat month would you like to leave?\n");
+        slowPrint("What month would you like to leave?\n");
         int i = 1;
         for (BoardingPass.Months month : BoardingPass.Months.values()) {
             System.out.println(i + " " + month + "\t");
@@ -409,7 +405,7 @@ public class CommandLineApp {
     public Date requestDateLeaving(String date) {
         int input;
         // request day leaving
-        slowPrint("\n What day would you like to leave?\n");
+        slowPrint("What day would you like to leave?\n");
         if (getInput.hasNextInt()) {
             input = getInput.nextInt();
             if (input >= 1 && input <= 9) {

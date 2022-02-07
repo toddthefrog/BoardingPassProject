@@ -28,8 +28,7 @@ public class BoardingPass {
         Singapore,
         Tokyo,
         Vancouver,
-        Washington_DC,
-        Unknown
+        Washington_DC
     }
     enum Months {
         January,
