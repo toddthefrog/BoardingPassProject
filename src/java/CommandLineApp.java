@@ -26,8 +26,10 @@ public class CommandLineApp {
         requestNumber(customer);
         requestGender(customer);
         requestAge(customer);
+        // copy customer number to boarding pass number
+        boardingPass.setBoardingPassNumber(customer.getCustomerNumber());
         // generate boarding pass
-        generateBPNumber(boardingPass, customer);
+        generateBPNumber(boardingPass);
         requestDepartureLocation(boardingPass);
         requestDestinationLocation(boardingPass);
         httpCallForDistanceAndFlightTime(boardingPass);
@@ -90,12 +92,9 @@ public class CommandLineApp {
         }
     }
 
-    public void generateBPNumber(BoardingPass boardingPass, Customer customer){
-        int value = Objects.hash(customer.getClass(), boardingPass.getClass());
-        if (value < 0){
-            value = Math.abs(value);
-        }
-        boardingPass.setBoardingPassNumber(value);
+    public void generateBPNumber(BoardingPass boardingPass){
+        int boardingPassHashCode = Math.abs(boardingPass.hashCode());
+        boardingPass.setBoardingPassNumber(boardingPassHashCode);
     }
 
     public void requestAge(Customer customer) {
