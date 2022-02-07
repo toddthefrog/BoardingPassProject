@@ -27,6 +27,7 @@ public class CommandLineApp {
         requestGender(customer);
         requestAge(customer);
         // generate boarding pass
+        generateBPNumber(boardingPass, customer);
         requestDepartureLocation(boardingPass);
         requestDestinationLocation(boardingPass);
         httpCallForDistanceAndFlightTime(boardingPass);
@@ -87,6 +88,14 @@ public class CommandLineApp {
                 customer.setGender(Customer.Genders.Java_Developer);
                 break;
         }
+    }
+
+    public void generateBPNumber(BoardingPass boardingPass, Customer customer){
+        int value = Objects.hash(customer.getClass(), boardingPass.getClass());
+        if (value < 0){
+            value = Math.abs(value);
+        }
+        boardingPass.setBoardingPassNumber(value);
     }
 
     public void requestAge(Customer customer) {
