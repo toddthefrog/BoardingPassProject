@@ -34,11 +34,7 @@ public class CommandLineApp {
         generateFlightsToDestination(3, boardingPass);
         setArrivalTime(boardingPass);
         generateTicketPrice(customer,boardingPass);
-<<<<<<< Updated upstream
-        generateBPNumber(boardingPass, customer);
-=======
         generateBPNumber(customer, boardingPass);
->>>>>>> Stashed changes
         System.out.println(boardingPass.getTicketPrice());
 //        generateFlightsToOrigin(3, boardingPass);
         System.out.println(customer);
