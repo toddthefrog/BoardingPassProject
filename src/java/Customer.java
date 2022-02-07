@@ -2,8 +2,15 @@ public class Customer {
     private String name;
     private String email;
     private String number;
-    private String gender;
+    private Genders gender;
     private int age;
+    enum Genders {
+        Male,
+        Female,
+        Other,
+        Java_Developer
+    }
+
 
     public String getName() {
         return name;
@@ -29,11 +36,11 @@ public class Customer {
         this.number = number;
     }
 
-    public String getGender() {
+    public Genders getGender() {
         return gender;
     }
 
-    public void setGender(String gender) {
+    public void setGender(Genders gender) {
         this.gender = gender;
     }
 
@@ -47,6 +54,6 @@ public class Customer {
 
     @Override
     public String toString() {
-        return getName() + "\n  age: " + getAge() + "\n  phone number: " + getNumber() + "\n  email: " + getEmail() + "\n  gender: " + getGender();
+        return getName() + "\n  age: " + getAge() + "\n  phone number: " + getNumber() + "\n  email: " + getEmail() + "\n  gender: " + getGender().toString();
     }
 }

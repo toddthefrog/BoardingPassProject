@@ -5,7 +5,6 @@ public class BoardingPass {
     // variables
     private int boardingPassNumber;
     private String eta;
-
     enum Locations {
         Atlanta,
         Amsterdam,
@@ -74,7 +73,6 @@ public class BoardingPass {
         this.originLocation = originLocation;
     }
 
-
     public Date getDepartureTime() {
         return departureTime;
     }
@@ -98,7 +96,6 @@ public class BoardingPass {
     public void setTicketPrice(double ticketPrice) {
         this.ticketPrice = ticketPrice;
     }
-
 
     public String getEta() {
         return eta;
