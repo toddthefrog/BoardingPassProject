@@ -1,16 +1,12 @@
 import java.io.*;
-import java.util.*;
 import com.lowagie.text.*;
 import com.lowagie.text.pdf.BarcodePDF417;
 import com.lowagie.text.pdf.FontSelector;
 import com.lowagie.text.pdf.PdfWriter;
 
-import java.io.*;
 import java.util.Scanner;
 
 public class WritetoFile {
-    FileWriter fw;
-
     public void ticketInfo(Customer customer, BoardingPass boardingPass) {
         {
             try {
@@ -51,7 +47,6 @@ public class WritetoFile {
                 fw.write("$"+ boardingPass.getTicketPrice());
 
                 fw.close();
-
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -61,7 +56,6 @@ public class WritetoFile {
         try {
             FileReader fr = new FileReader("ticketInfo.txt");
             Scanner myReader = new Scanner(fr);
-
             BarcodePDF417 pdf417 = new BarcodePDF417();
             Document document = new Document(PageSize.A4, 50, 50, 50, 50);
             PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("Ticket.pdf"));
@@ -69,6 +63,7 @@ public class WritetoFile {
             pdf417.setText(String.valueOf(boardingPass.getBoardingPassNumber()));
             Image img = pdf417.getImage();
             img.scalePercent(300, 300 * pdf417.getYHeight());
+
             FontSelector selector = new FontSelector();
             Font f1 = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 30);
             selector.addFont(f1);
