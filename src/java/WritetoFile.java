@@ -24,18 +24,18 @@ public class WritetoFile {
 
                 fw.write(customer.getName());
                 fw.newLine();
-                fw.write(customer.getEmail());
-                fw.newLine();
-                fw.write(customer.getNumber());
-                fw.newLine();
                 fw.write(customer.getGender());
                 fw.newLine();
                 fw.write(String.valueOf(customer.getAge()));
                 fw.newLine();
-
+                fw.write(customer.getEmail());
+                fw.newLine();
+                fw.write(customer.getNumber());
+                fw.newLine();
                 //enum
                 fw.write(String.valueOf(boardingPass.getBoardingPassNumber()));
                 fw.newLine();
+
                 //enum
                 fw.write(String.valueOf(boardingPass.getDestinationLocation()));
                 fw.newLine();
@@ -212,50 +212,48 @@ public class WritetoFile {
                         PLine = new Paragraph(line);
                         document.add(PLine);
                         break;
-                    case 4:
+                    case 3:
                         line = "Passenger Age: ";
                         PLine = new Paragraph(line);
                         document.add(PLine);
                         break;
-                    case 5:
+                    case 4:
                         line = "Passenger Email:";
                         PLine = new Paragraph(line);
                         document.add(PLine);
                         break;
-                    case 6:
+                    case 5:
                         line = "Passenger Phone Number: ";
                         PLine = new Paragraph(line);
                         document.add(PLine);
                         break;
-                    case 7:
+                    case 6:
                         line = "Boarding Pass Number: ";
                         PLine = new Paragraph(line);
                         document.add(PLine);
                         break;
-                    case 8:
+                    case 7:
                         document.add(Chunk.NEWLINE);
                         document.add(Chunk.NEWLINE);
                         ph = selector.process("Travel Information: ");
                         PLine = new Paragraph(ph);
                         document.add(PLine);
                         document.add(Chunk.NEWLINE);
-                        break;
-                    case 9:
                         line = "From: ";
                         PLine = new Paragraph(line);
                         document.add(PLine);
                         break;
-                    case 10:
+                    case 8:
                         line = "Departure Time: ";
                         PLine = new Paragraph(line);
                         document.add(PLine);
                         break;
-                    case 11:
+                    case 9:
                         line = "To: ";
                         PLine = new Paragraph(line);
                         document.add(PLine);
                         break;
-                    case 12:
+                    case 10:
                         line = "Arrival Time: ";
                         PLine = new Paragraph(line);
                         document.add(PLine);
