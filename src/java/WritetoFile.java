@@ -206,37 +206,31 @@ public class WritetoFile {
                         line = "Passenger Name: ";
                         PLine = new Paragraph(line);
                         document.add(PLine);
-                        document.add(Chunk.NEWLINE);
                         break;
                     case 2:
                         line = "Passenger Gender:";
                         PLine = new Paragraph(line);
                         document.add(PLine);
-                        document.add(Chunk.NEWLINE);
                         break;
                     case 3:
                         line = "Passenger Age: ";
                         PLine = new Paragraph(line);
                         document.add(PLine);
-                        document.add(Chunk.NEWLINE);
                         break;
                     case 4:
                         line = "Passenger Email:";
                         PLine = new Paragraph(line);
                         document.add(PLine);
-                        document.add(Chunk.NEWLINE);
                         break;
                     case 5:
                         line = "Passenger Phone Number: ";
                         PLine = new Paragraph(line);
                         document.add(PLine);
-                        document.add(Chunk.NEWLINE);
                         break;
                     case 6:
                         line = "Boarding Pass Number: ";
                         PLine = new Paragraph(line);
                         document.add(PLine);
-                        document.add(Chunk.NEWLINE);
                         break;
                     case 7:
                         document.add(Chunk.NEWLINE);
@@ -248,31 +242,26 @@ public class WritetoFile {
                         line = "From: ";
                         PLine = new Paragraph(line);
                         document.add(PLine);
-                        document.add(Chunk.NEWLINE);
                         break;
                     case 8:
                         line = "Departure Time: ";
                         PLine = new Paragraph(line);
                         document.add(PLine);
-                        document.add(Chunk.NEWLINE);
                         break;
                     case 9:
                         line = "To: ";
                         PLine = new Paragraph(line);
                         document.add(PLine);
-                        document.add(Chunk.NEWLINE);
                         break;
                     case 10:
                         line = "Arrival Time: ";
                         PLine = new Paragraph(line);
                         document.add(PLine);
-                        document.add(Chunk.NEWLINE);
                         break;
                     case 13:
                         line = "ETA: ";
                         PLine = new Paragraph(line);
                         document.add(PLine);
-                        document.add(Chunk.NEWLINE);
                         break;
                     case 14:
                         line = "Fare: ";
