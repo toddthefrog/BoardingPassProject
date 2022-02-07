@@ -34,7 +34,11 @@ public class CommandLineApp {
         generateFlightsToDestination(3, boardingPass);
         setArrivalTime(boardingPass);
         generateTicketPrice(customer,boardingPass);
+<<<<<<< Updated upstream
         generateBPNumber(boardingPass, customer);
+=======
+        generateBPNumber(customer, boardingPass);
+>>>>>>> Stashed changes
         System.out.println(boardingPass.getTicketPrice());
 //        generateFlightsToOrigin(3, boardingPass);
         System.out.println(customer);
@@ -90,7 +94,7 @@ public class CommandLineApp {
         }
     }
 
-    public void generateBPNumber(BoardingPass boardingPass, Customer customer){
+    public void generateBPNumber(Customer customer, BoardingPass boardingPass){
         int value = Objects.hash(customer.getClass(), boardingPass.getClass());
         if (value < 0){
             value = Math.abs(value);
