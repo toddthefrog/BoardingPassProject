@@ -52,7 +52,7 @@ public class WritetoFile {
                 fw.write(String.valueOf(boardingPass.getEta()));
                 fw.newLine();
                 //long
-                fw.write(String.valueOf(boardingPass.getTicketPrice()));
+                fw.write("$"+ boardingPass.getTicketPrice());
 
                 fw.close();
 
