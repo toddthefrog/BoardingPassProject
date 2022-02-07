@@ -173,10 +173,11 @@ public class WritetoFile {
             //document.addTitle("Ticket");
             FontSelector selector = new FontSelector();
             Font f1 = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 30);
-            f1.setColor(Color.blue);
+            //f1.setColor(Color.blue);
             selector.addFont(f1);
             Phrase ph = selector.process("Ticket Information");
             Paragraph title = new Paragraph(ph);
+            title.setAlignment("center");
             document.add(title);
 
             int i = 1;
@@ -195,7 +196,7 @@ public class WritetoFile {
                 switch (i){
                     case 1:
                         f1.setSize(13);
-                        f1.setColor(Color.BLACK);
+                        //f1.setColor(Color.BLACK);
                         selector.addFont(f1);
                         ph = selector.process("Passenger Information: ");
                         PLine = new Paragraph(ph);
@@ -270,7 +271,8 @@ public class WritetoFile {
 
                 line = myReader.nextLine();
                 Paragraph paragraph = new Paragraph(line);
-                paragraph.setIndentationRight(50);
+                //paragraph.setAlignment("center");
+                paragraph.setIndentationLeft(100.0f);
                 document.add(paragraph);
                 i++;
             }
@@ -291,6 +293,10 @@ public class WritetoFile {
             //document.add(PETA);
 
              */
+            document.add(Chunk.NEWLINE);
+            document.add(Chunk.NEWLINE);
+            document.add(Chunk.NEWLINE);
+            document.add(Chunk.NEWLINE);
             document.add(img);
 
 
