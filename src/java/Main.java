@@ -7,7 +7,7 @@ public class Main {
         BoardingPass boardingPass = new BoardingPass();
         WritetoFile writetoFile = new WritetoFile();
         app.start(customer, boardingPass);
-//        writetoFile.ticketInfo(customer, boardingPass);
-//        writetoFile.pdf(boardingPass);
+        writetoFile.ticketInfo(customer, boardingPass);
+        writetoFile.pdf(boardingPass);
     }
 }
