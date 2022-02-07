@@ -31,19 +31,26 @@ public class WritetoFile {
                 fw.write(customer.getEmail());
                 fw.newLine();
                 fw.write(customer.getNumber());
+<<<<<<< Updated upstream
                 fw.newLine();
+                //enum
+                fw.write(String.valueOf(boardingPass.getBoardingPassNumber()));
+=======
+>>>>>>> Stashed changes
+                fw.newLine();
+
                 //enum
                 fw.write(String.valueOf(boardingPass.getBoardingPassNumber()));
                 fw.newLine();
 
-                //enum
-                fw.write(String.valueOf(boardingPass.getDestinationLocation()));
-                fw.newLine();
                 //locations
                 fw.write(String.valueOf(boardingPass.getOriginLocation()));
                 fw.newLine();
                 //date
                 fw.write(String.valueOf(boardingPass.getDepartureTime()));
+                fw.newLine();
+                //enum
+                fw.write(String.valueOf(boardingPass.getDestinationLocation()));
                 fw.newLine();
                 //date
                 fw.write(String.valueOf(boardingPass.getArrivalTime()));
