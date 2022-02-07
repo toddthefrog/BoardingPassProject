@@ -267,7 +267,6 @@ public class WritetoFile {
                         line = "Fare: ";
                         PLine = new Paragraph(line);
                         document.add(PLine);
-                        String test = "";
                         break;
                 }
 
