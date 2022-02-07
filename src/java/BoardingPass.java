@@ -27,6 +27,20 @@ public class BoardingPass {
         Washington_DC,
         Unknown
     }
+    enum Months {
+        January,
+        February,
+        March,
+        April,
+        May,
+        June,
+        July,
+        August,
+        September,
+        October,
+        November,
+        December
+    }
     private Locations originLocation;
     private Locations destinationLocation;
     private Date departureTime;

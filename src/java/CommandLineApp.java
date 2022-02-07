@@ -10,8 +10,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Scanner;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
 public class CommandLineApp {
@@ -19,7 +19,7 @@ public class CommandLineApp {
     // create scanner
     Scanner getInput = new Scanner(System.in);
 
-    public void start(Customer customer, BoardingPass boardingPass){
+    public void start(Customer customer, BoardingPass boardingPass) {
         // get customer info
 //        requestName(customer);
 //        requestEmail(customer);
@@ -27,44 +27,46 @@ public class CommandLineApp {
 //        requestGender(customer);
 //        requestAge(customer);
         // generate boarding pass
-//        requestDepartureLocation(boardingPass);
-//        requestDestinationLocation(boardingPass);
-        // close scanner
-//        httpCallForDistanceAndFlightTime(boardingPass);
-        requestDateLeaving();
+        requestDepartureLocation(boardingPass);
+        requestDestinationLocation(boardingPass);
+        httpCallForDistanceAndFlightTime(boardingPass);
+        // ask for dates then generate options
+        setDateDepartingOrigin();
+        setDateDepartingDestination();
         System.out.println(customer);
         System.out.println(boardingPass);
+        // close scanner
         getInput.close();
     }
 
-    public void requestName(Customer customer){
+    public void requestName(Customer customer) {
         slowPrint("What is your full legal name? \n");
         String input = getInput.nextLine();
         customer.setName(input);
     }
 
-    public void requestEmail(Customer customer){
+    public void requestEmail(Customer customer) {
         slowPrint("What is your email? \n");
         String input = getInput.nextLine();
         customer.setEmail(input);
     }
 
-    public void requestNumber(Customer customer){
+    public void requestNumber(Customer customer) {
         slowPrint("What is your phone number? Format: 1234567890 \n");
         String input = getInput.nextLine();
         customer.setNumber(input);
     }
 
-    public void requestGender(Customer customer){
+    public void requestGender(Customer customer) {
         slowPrint("What is your gender? Format: 1-4 \n");
         slowPrint("(1) Male (2) Female (3) Other (4) Java Developer \n");
         int input;
-        if(getInput.hasNextInt()){
+        if (getInput.hasNextInt()) {
             input = getInput.nextInt();
         } else {
             input = 5;
         }
-        switch(input){
+        switch (input) {
             case 1:
                 customer.setGender("Male");
                 break;
@@ -82,10 +84,10 @@ public class CommandLineApp {
         }
     }
 
-    public void requestAge(Customer customer){
+    public void requestAge(Customer customer) {
         slowPrint("What is your age? Format: 18 \n");
         int input;
-        if(getInput.hasNextInt()){
+        if (getInput.hasNextInt()) {
             input = getInput.nextInt();
             customer.setAge(input);
         } else {
@@ -94,18 +96,18 @@ public class CommandLineApp {
         }
     }
 
-    public void requestDepartureLocation(BoardingPass boardingPass){
+    public void requestDepartureLocation(BoardingPass boardingPass) {
         slowPrint("What is your departure city? \n\n");
         int i = 1;
-        for(BoardingPass.Locations location : BoardingPass.Locations.values()){
+        for (BoardingPass.Locations location : BoardingPass.Locations.values()) {
             System.out.println(i + " " + location + "\t");
             i++;
         }
         int input;
-        if(getInput.hasNextInt()){
+        if (getInput.hasNextInt()) {
             input = getInput.nextInt();
-            if(input >= 1 && input <= 20){
-                switch(input){
+            if (input >= 1 && input <= 20) {
+                switch (input) {
                     case 1:
                         boardingPass.setOriginLocation(BoardingPass.Locations.Atlanta);
                         break;
@@ -174,19 +176,19 @@ public class CommandLineApp {
         }
     }
 
-    public void requestDestinationLocation(BoardingPass boardingPass){
+    public void requestDestinationLocation(BoardingPass boardingPass) {
         slowPrint("What is your arrival city? \n\n");
         int i = 1;
-        for(BoardingPass.Locations location : BoardingPass.Locations.values()){
+        for (BoardingPass.Locations location : BoardingPass.Locations.values()) {
             System.out.println(i + " " + location + "\t");
             i++;
         }
 //        System.out.println("\n");
         int input;
-        if(getInput.hasNextInt()){
+        if (getInput.hasNextInt()) {
             input = getInput.nextInt();
-            if(input >= 1 && input <= 20){
-                switch(input){
+            if (input >= 1 && input <= 20) {
+                switch (input) {
                     case 1:
                         boardingPass.setDestinationLocation(BoardingPass.Locations.Atlanta);
                         break;
@@ -255,7 +257,7 @@ public class CommandLineApp {
         }
     }
 
-    public void httpCallForDistanceAndFlightTime(BoardingPass boardingPass){
+    public void httpCallForDistanceAndFlightTime(BoardingPass boardingPass) {
         // reference material https://www.geeksforgeeks.org/parse-json-java/
         // url
         OkHttpClient client = new OkHttpClient();
@@ -301,44 +303,133 @@ public class CommandLineApp {
         }
     }
 
-    public void requestDateLeaving(){
-        Calendar calendar = Calendar.getInstance();
-        Date today = calendar.getTime();
-        SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
-        slowPrint("\nWhat date would you like to leave?");
-        slowPrint("\nExample: " + sdf.format(today) +"\n");
-        String requestedDate = getInput.nextLine();
-        // create date from input
-        String pattern = "yyyy-MM-dd";
-        int amOrPM;
-        int hour;
-        int randomMinute = ThreadLocalRandom.current().nextInt(0, 60);
-        slowPrint("\nWhen would you like to depart?");
-        slowPrint("\n1 - AM");
-        slowPrint("\n2 - PM\n");
-        if (getInput.hasNextInt()){
-            amOrPM = getInput.nextInt();
-            if (amOrPM == 1){
-                slowPrint("What time would you like to leave?\n  1 would be 1 AM \n11 would be 11 AM\n");
-                if (getInput.hasNextInt()){
-                    hour = getInput.nextInt();
-                }
-            } else {
-                slowPrint("What time would you like to leave?\n 1 would be 1 PM \n11 would be 11 PM\n");
-                if (getInput.hasNextInt()){
-                    hour = getInput.nextInt();
+    public String requestYearLeavingOrigin() {
+        int input = 0;
+        String date = null;
+        // request year leaving
+
+        slowPrint("\n What year would you like to leave for your origin?");
+        slowPrint("\n Example: 2022\n");
+        if (getInput.hasNextInt()) {
+            input = getInput.nextInt();
+        }
+        date = String.valueOf(input + "-");
+        return date;
+    }
+
+    public String requestYearLeavingDestination() {
+        int input = 0;
+        String date = null;
+        // request year leaving
+
+        slowPrint("\n What year would you like to leave for your destination?");
+        slowPrint("\n Example: 2022\n");
+        if (getInput.hasNextInt()) {
+            input = getInput.nextInt();
+        }
+        date = String.valueOf(input + "-");
+        return date;
+    }
+
+    public String requestMonthLeaving(String date) {
+        int input;
+        // request month leaving
+        slowPrint("\nWhat month would you like to leave?\n");
+        int i = 1;
+        for (BoardingPass.Months month : BoardingPass.Months.values()) {
+            System.out.println(i + " " + month + "\t");
+            i++;
+        }
+        if (getInput.hasNextInt()) {
+            input = getInput.nextInt();
+            if (input >= 1 && input <= 12) {
+                switch (input) {
+                    // use fallthrough for input month 1 or 01
+                    case 1:
+                        date += "01-";
+                        break;
+                    case 2:
+                        date += "02-";
+                        break;
+                    case 3:
+                        date += "03-";
+                        break;
+                    case 4:
+                        date += "04-";
+                        break;
+                    case 5:
+                        date += "05-";
+                        break;
+                    case 6:
+                        date += "06-";
+                        break;
+                    case 7:
+                        date += "07-";
+                        break;
+                    case 8:
+                        date += "08-";
+                        break;
+                    case 9:
+                        date += "09-";
+                        break;
+
+                    case 10:
+                        date += "10-";
+                        break;
+                    case 11:
+                        date += "11-";
+                        break;
+                    case 12:
+                        date += "12-";
+                        break;
                 }
             }
         }
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+        return date;
+    }
+
+    public Date requestDateLeaving(String date) {
+        int input;
+        // request day leaving
+        slowPrint("\n What day would you like to leave?\n");
+        if (getInput.hasNextInt()) {
+            input = getInput.nextInt();
+            if (input >= 1 && input <= 9) {
+                date += "0" + input;
+            }
+            if (input >= 10 && input <= 31) {
+                date += input;
+            }
+        }
+        // create date from input
+        Date newDate = null;
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
         try {
-            Date date = simpleDateFormat.parse(requestedDate);
+            newDate = formatter.parse(date);
         } catch (java.text.ParseException e) {
             e.printStackTrace();
         }
+        return newDate;
     }
 
+    public void setDateDepartingOrigin(){
+        String tempDate = requestYearLeavingOrigin();
+        tempDate = requestMonthLeaving(tempDate);
+        Date date = requestDateLeaving(tempDate);
+        System.out.println("date departing origin: " + date);
+    }
 
+    public void setDateDepartingDestination(){
+        String tempDate = requestYearLeavingDestination();
+        tempDate = requestMonthLeaving(tempDate);
+        Date date = requestDateLeaving(tempDate);
+        System.out.println("date departing destination: " + date);
+    }
+
+    public void generateFlightsToDestination(Date date){
+        // generate 3 flights, Morning, Afternoon and Evening from incoming Date
+        int numberOfFlightsToGenerate = 3;
+    }
 
     // the following method prints to the console with a delay between each character
     // shamelessly stolen from: https://replit.com/talk/learn/Slow-Print-tutorial-for-JAVA/51697
