@@ -27,7 +27,6 @@ public class CommandLineApp {
         requestGender(customer);
         requestAge(customer);
         // generate boarding pass
-        generateBPNumber(boardingPass, customer);
         requestDepartureLocation(boardingPass);
         requestDestinationLocation(boardingPass);
         httpCallForDistanceAndFlightTime(boardingPass);
@@ -35,6 +34,7 @@ public class CommandLineApp {
         generateFlightsToDestination(3, boardingPass);
         setArrivalTime(boardingPass);
         generateTicketPrice(customer,boardingPass);
+        generateBPNumber(boardingPass, customer);
         System.out.println(boardingPass.getTicketPrice());
 //        generateFlightsToOrigin(3, boardingPass);
         System.out.println(customer);
