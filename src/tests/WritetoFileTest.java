@@ -48,7 +48,7 @@ class WritetoFileTest {
         String DT = String.valueOf(boardingPass.getDepartureTime());
         String AT = String.valueOf(boardingPass.getArrivalTime());
         String ticketPrice = String.valueOf(boardingPass.getTicketPrice());
-        //String ETA = String.valueOf(boardingPass.getEta());
+        String ETA = String.valueOf(boardingPass.getEta());
 
         List<String> test = Arrays.asList(customer.getName(), customer.getNumber(), customer.getGender().toString(), age, bpn, DL, OL, DT, AT, ticketPrice);
         try {
@@ -62,7 +62,7 @@ class WritetoFileTest {
     }
 
     @Test
-    void writeTicket(@TempDir Path tempDir) {
+    void pdf(@TempDir Path tempDir) {
         Path testingFolder = tempDir.resolve("Ticket.txt");
 
         String age = String.valueOf(customer.getAge());
@@ -72,7 +72,7 @@ class WritetoFileTest {
         String DT = String.valueOf(boardingPass.getDepartureTime());
         String AT = String.valueOf(boardingPass.getArrivalTime());
         String ticketPrice = String.valueOf(boardingPass.getTicketPrice());
-        //String ETA = String.valueOf(boardingPass.getEta());
+        String ETA = String.valueOf(boardingPass.getEta());
 
         List<String> test = Arrays.asList(customer.getName(), customer.getNumber(), customer.getGender().toString(), age, bpn, DL, OL, DT, AT, ticketPrice);
         try {
